@@ -156,7 +156,7 @@ class MainActivity : BaseActivity() {
                 ?.alpha(0.25f)
                 ?.setDuration(700)
                 ?.withEndAction {
-                    splashPulseRing.animate()
+                    splashPulseRing?.animate()
                         ?.scaleX(1.6f)
                         ?.scaleY(1.6f)
                         ?.alpha(0f)

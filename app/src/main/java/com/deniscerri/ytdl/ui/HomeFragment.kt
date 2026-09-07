@@ -277,10 +277,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
                 lifecycleScope.launch(Dispatchers.IO) {
                     resultViewModel.deleteAll()
                     withContext(Dispatchers.Main) {
-                        val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                        val prefType = sharedPreferences?.getString("preferred_download_type", "video") ?: "video"
+                        val parsedType = try { DownloadType.valueOf(prefType) } catch (e: Exception) { DownloadType.video }
                         showSingleDownloadSheet(
                             resultItem = downloadViewModel.createEmptyResultItem(argList.first()),
-                            type = DownloadType.valueOf(prefType)
+                            type = parsedType
                         )
                     }
                 }
@@ -749,10 +750,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
             val firstQuery = queryList.firstOrNull()?.trim() ?: ""
             if (queryList.size == 1 && (firstQuery.isURL() || Patterns.WEB_URL.matcher(firstQuery).matches())){
                 withContext(Dispatchers.Main){
-                    val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                    val prefType = sharedPreferences?.getString("preferred_download_type", "video") ?: "video"
+                    val parsedType = try { DownloadType.valueOf(prefType) } catch (e: Exception) { DownloadType.video }
                     showSingleDownloadSheet(
                         resultItem = downloadViewModel.createEmptyResultItem(firstQuery),
-                        type = DownloadType.valueOf(prefType)
+                        type = parsedType
                     )
                 }
             }else{
@@ -1180,10 +1182,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
                     lifecycleScope.launch(Dispatchers.IO) {
                         resultViewModel.deleteAll()
                         withContext(Dispatchers.Main) {
-                            val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                            val prefType = sharedPreferences?.getString("preferred_download_type", "video") ?: "video"
+                            val parsedType = try { DownloadType.valueOf(prefType) } catch (e: Exception) { DownloadType.video }
                             showSingleDownloadSheet(
                                 resultItem = downloadViewModel.createEmptyResultItem(query),
-                                type = DownloadType.valueOf(prefType)
+                                type = parsedType
                             )
                         }
                     }

@@ -63,6 +63,7 @@ jobs:
       # Build ONLY the specific flavor assigned to this matrix runner
       - name: Build ${{ matrix.flavor }} APK release
         run: |
+          set -o pipefail
           ./gradlew ${{ matrix.task }} --stacktrace --warning-mode all 2>&1 | tee build.log
 
       - name: Upload Build Log on Failure
