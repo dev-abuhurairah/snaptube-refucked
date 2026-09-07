@@ -1,4 +1,4 @@
-﻿package com.deniscerri.ytdl.ui.more
+package com.deniscerri.ytdl.ui.more
 
 import android.content.Intent
 import android.content.SharedPreferences
