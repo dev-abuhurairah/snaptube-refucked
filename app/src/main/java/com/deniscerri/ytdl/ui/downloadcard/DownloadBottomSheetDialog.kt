@@ -745,6 +745,9 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun handleDuplicatesAndDismiss(res: List<DownloadViewModel.AlreadyExistsIDs>) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            resultViewModel.deleteAll()
+        }
         if (activity is ShareActivity && res.isNotEmpty()) {
             //let the lifecycle listener handle it
         }else{

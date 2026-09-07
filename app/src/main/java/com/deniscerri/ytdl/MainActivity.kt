@@ -123,16 +123,70 @@ class MainActivity : BaseActivity() {
         context = baseContext
 
         val splashOverlay = findViewById<View>(R.id.splash_screen_overlay)
-        if (savedInstanceState == null) {
-            splashOverlay?.postDelayed({
+        val splashLogo = findViewById<View>(R.id.splash_logo)
+        val splashPulseRing = findViewById<View>(R.id.splash_pulse_ring)
+        val splashBrandContainer = findViewById<View>(R.id.splash_brand_container)
+
+        if (savedInstanceState == null && splashOverlay != null) {
+            // Initial animation state
+            splashLogo?.scaleX = 0.5f
+            splashLogo?.scaleY = 0.5f
+            splashLogo?.alpha = 0f
+
+            splashPulseRing?.scaleX = 0.4f
+            splashPulseRing?.scaleY = 0.4f
+            splashPulseRing?.alpha = 0f
+
+            splashBrandContainer?.alpha = 0f
+            splashBrandContainer?.translationY = 50f
+
+            // 1. Logo entrance with bounce
+            splashLogo?.animate()
+                ?.scaleX(1.0f)
+                ?.scaleY(1.0f)
+                ?.alpha(1.0f)
+                ?.setDuration(600)
+                ?.setInterpolator(android.view.animation.OvershootInterpolator(1.4f))
+                ?.start()
+
+            // 2. Pulse ring expansion
+            splashPulseRing?.animate()
+                ?.scaleX(1.3f)
+                ?.scaleY(1.3f)
+                ?.alpha(0.25f)
+                ?.setDuration(700)
+                ?.withEndAction {
+                    splashPulseRing.animate()
+                        ?.scaleX(1.6f)
+                        ?.scaleY(1.6f)
+                        ?.alpha(0f)
+                        ?.setDuration(500)
+                        ?.start()
+                }
+                ?.start()
+
+            // 3. Branding slide-up & fade-in
+            splashBrandContainer?.animate()
+                ?.alpha(1.0f)
+                ?.translationY(0f)
+                ?.setStartDelay(250)
+                ?.setDuration(500)
+                ?.setInterpolator(android.view.animation.DecelerateInterpolator())
+                ?.start()
+
+            // 4. Smooth exit transition to main screen
+            splashOverlay.postDelayed({
                 splashOverlay.animate()
                     .alpha(0f)
-                    .setDuration(400)
+                    .scaleX(1.06f)
+                    .scaleY(1.06f)
+                    .setDuration(420)
+                    .setInterpolator(android.view.animation.AccelerateInterpolator())
                     .withEndAction {
                         splashOverlay.visibility = View.GONE
                     }
                     .start()
-            }, 1200)
+            }, 1400)
         } else {
             splashOverlay?.visibility = View.GONE
         }

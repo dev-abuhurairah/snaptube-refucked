@@ -3,20 +3,24 @@
     android:height="120dp"
     android:viewportWidth="120"
     android:viewportHeight="120">
-    <!-- Yellow circle background -->
+    <!-- Outer Glow Circle -->
+    <path
+        android:fillColor="#33F5B800"
+        android:pathData="M60,60m-59,0a59,59 0,1 1,118 0a59,59 0,1 1,-118 0" />
+    <!-- Vibrant Yellow Background -->
     <path
         android:fillColor="#F5B800"
-        android:pathData="M60,60m-58,0a58,58 0,1 1,116 0a58,58 0,1 1,-116 0" />
-    <!-- White TV/Screen rounded box -->
+        android:pathData="M60,6c29.8,0 54,24.2 54,54s-24.2,54 -54,54S6,89.8 6,60 30.2,6 60,6z" />
+    <!-- Inner White Screen/TV curved card -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M35,42h50c4.4,0 8,3.6 8,8v20c0,4.4 -3.6,8 -8,8H35c-4.4,0 -8,-3.6 -8,-8V50c0,-4.4 3.6,-8 8,-8z" />
-    <!-- Orange/Red Downward Arrow -->
+        android:pathData="M34,36h52c5.5,0 10,4.5 10,10v28c0,5.5 -4.5,10 -10,10H34c-5.5,0 -10,-4.5 -10,-10V46c0,-5.5 4.5,-10 10,-10z" />
+    <!-- Bold Red-Orange Arrow -->
     <path
         android:fillColor="#E64A19"
-        android:pathData="M54,49h12v9h8L60,70 46,58h8z" />
-    <!-- Orange/Red Tray Under Arrow -->
+        android:pathData="M54,44h12v12h9L60,71 45,56h9z" />
+    <!-- Red-Orange Tray / Baseline Under Arrow -->
     <path
         android:fillColor="#E64A19"
-        android:pathData="M48,72h24v3h-24z" />
+        android:pathData="M44,75h32c1.1,0 2,0.9 2,2s-0.9,2 -2,2H44c-1.1,0 -2,-0.9 -2,-2s0.9,-2 2,-2z" />
 </vector>

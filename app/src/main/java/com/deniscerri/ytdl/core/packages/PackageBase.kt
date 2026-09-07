@@ -332,12 +332,6 @@ abstract class PackageBase {
 
 
     fun getArchSuffix(): String {
-        val abi = Build.SUPPORTED_ABIS[0]
-        return when {
-            abi.startsWith("arm64") -> "arm64-v8a"
-            abi.startsWith("armeabi") -> "armeabi-v7a"
-            abi.startsWith("x86_64") -> "x86_64"
-            else -> "arm64-v8a"
-        }
+        return "arm64-v8a"
     }
 }

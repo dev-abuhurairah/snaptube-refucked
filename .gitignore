@@ -11,3 +11,4 @@
 *.png
 app/src/main/jniLibs
 .kotlin
+*.zip

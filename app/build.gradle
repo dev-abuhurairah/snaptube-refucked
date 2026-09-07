@@ -64,15 +64,19 @@ android {
         }
     }
     defaultConfig {
-        applicationId "com.deniscerri.ytdl"
+        applicationId "com.vidsnap.downloader"
         minSdk 24
         targetSdk 36
         versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}${versionExt}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        archivesBaseName = "YTDLnis-$versionName"
+        archivesBaseName = "VidSnap-$versionName"
         vectorDrawables {
             useSupportLibrary true
+        }
+
+        ndk {
+            abiFilters "arm64-v8a"
         }
 
         ksp {
@@ -128,11 +132,11 @@ android {
                 output.versionCodeOverride = 100 * project.android.defaultConfig.versionCode
             }
 
-            def abi = output.getFilter(com.android.build.OutputFile.ABI) ?: "universal"
+            def abi = output.getFilter(com.android.build.OutputFile.ABI) ?: "arm64-v8a"
             if (variant.flavorName == "github") {
-                output.outputFileName = "YTDLnis-${versionName}-${abi}-${variant.buildType.name}.apk"
+                output.outputFileName = "VidSnap-${versionName}-${abi}-${variant.buildType.name}.apk"
             } else {
-                output.outputFileName = "YTDLnis-${versionName}-foss-${abi}-${variant.buildType.name}.apk"
+                output.outputFileName = "VidSnap-${versionName}-foss-${abi}-${variant.buildType.name}.apk"
             }
         }
     }
@@ -157,8 +161,8 @@ android {
         abi {
             enable true
             reset()
-            include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-            universalApk true
+            include 'arm64-v8a'
+            universalApk false
         }
     }
     composeOptions {

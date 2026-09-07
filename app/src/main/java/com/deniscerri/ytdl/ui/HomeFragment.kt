@@ -270,18 +270,28 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
         if (arguments?.getString("url") != null){
             val url = requireArguments().getString("url")
-            if (inputQueries == null) inputQueries = mutableListOf()
             searchBar?.setText(url)
             val argList = url!!.split("\n").filter { it.isURL() }.toMutableList()
             argList.removeAll(listOf("", null))
-            inputQueries!!.addAll(argList)
-        }
-
-        if (inputQueries != null) {
-            lifecycleScope.launch(Dispatchers.IO){
-                resultViewModel.deleteAll()
-                resultViewModel.parseQueries(inputQueries!!){}
-                inputQueries = null
+            if (argList.size == 1) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    resultViewModel.deleteAll()
+                    withContext(Dispatchers.Main) {
+                        val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                        showSingleDownloadSheet(
+                            resultItem = downloadViewModel.createEmptyResultItem(argList.first()),
+                            type = DownloadType.valueOf(prefType)
+                        )
+                    }
+                }
+            } else if (argList.isNotEmpty()) {
+                if (inputQueries == null) inputQueries = mutableListOf()
+                inputQueries!!.addAll(argList)
+                lifecycleScope.launch(Dispatchers.IO){
+                    resultViewModel.deleteAll()
+                    resultViewModel.parseQueries(inputQueries!!){}
+                    inputQueries = null
+                }
             }
         }
 
@@ -406,11 +416,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
     override fun onResume() {
         super.onResume()
-        if(arguments?.getString("url") == null){
-            if (!resultViewModel.uiState.value.processing){
-                resultViewModel.checkTrending()
-            }
-        }else{
+        if(arguments?.getString("url") != null){
             arguments?.remove("url")
         }
 
@@ -740,25 +746,14 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
     private fun startSearch() {
         lifecycleScope.launch(Dispatchers.IO){
             resultViewModel.deleteAll()
-            if(sharedPreferences!!.getBoolean("quick_download", false) || sharedPreferences!!.getString("preferred_download_type", "video") == "command"){
-                if (queryList.size == 1 && Patterns.WEB_URL.matcher(queryList.first()).matches()){
-                    if (sharedPreferences!!.getBoolean("download_card", true)) {
-                        withContext(Dispatchers.Main){
-                            showSingleDownloadSheet(
-                                resultItem = downloadViewModel.createEmptyResultItem(queryList.first()),
-                                type = DownloadType.valueOf(sharedPreferences!!.getString("preferred_download_type", "video")!!)
-                            )
-                        }
-                    } else {
-                        val downloadItem = downloadViewModel.createDownloadItemFromResult(
-                            result = downloadViewModel.createEmptyResultItem(queryList.first()),
-                            givenType = DownloadType.valueOf(sharedPreferences!!.getString("preferred_download_type", "video")!!)
-                        )
-                        downloadViewModel.queueDownloads(listOf(downloadItem))
-                    }
-
-                }else{
-                    resultViewModel.parseQueries(queryList){}
+            val firstQuery = queryList.firstOrNull()?.trim() ?: ""
+            if (queryList.size == 1 && (firstQuery.isURL() || Patterns.WEB_URL.matcher(firstQuery).matches())){
+                withContext(Dispatchers.Main){
+                    val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                    showSingleDownloadSheet(
+                        resultItem = downloadViewModel.createEmptyResultItem(firstQuery),
+                        type = DownloadType.valueOf(prefType)
+                    )
                 }
             }else{
                 resultViewModel.parseQueries(queryList){}
@@ -1180,8 +1175,57 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
                 }
                 val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(searchInput?.windowToken, 0)
-                startSearch()
+
+                if (query.isURL() || Patterns.WEB_URL.matcher(query).matches()) {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        resultViewModel.deleteAll()
+                        withContext(Dispatchers.Main) {
+                            val prefType = sharedPreferences!!.getString("preferred_download_type", "video") ?: "video"
+                            showSingleDownloadSheet(
+                                resultItem = downloadViewModel.createEmptyResultItem(query),
+                                type = DownloadType.valueOf(prefType)
+                            )
+                        }
+                    }
+                } else {
+                    startSearch()
+                }
             }
+        }
+
+        fun openShortcut(platformName: String, hint: String, searchPrefix: String = "") {
+            searchInput?.hint = hint
+            searchInput?.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.showSoftInput(searchInput, InputMethodManager.SHOW_IMPLICIT)
+            if (searchPrefix.isNotEmpty()) {
+                sharedPreferences?.edit()?.putString("search_engine", searchPrefix)?.apply()
+            }
+        }
+
+        view.findViewById<View>(R.id.shortcut_youtube)?.setOnClickListener {
+            openShortcut("YouTube", "Search YouTube or paste URL...", "ytsearch")
+        }
+        view.findViewById<View>(R.id.shortcut_instagram)?.setOnClickListener {
+            openShortcut("Instagram", "Paste Instagram video/reel URL...")
+        }
+        view.findViewById<View>(R.id.shortcut_facebook)?.setOnClickListener {
+            openShortcut("Facebook", "Paste Facebook video URL...")
+        }
+        view.findViewById<View>(R.id.shortcut_tiktok)?.setOnClickListener {
+            openShortcut("TikTok", "Paste TikTok video URL...")
+        }
+        view.findViewById<View>(R.id.shortcut_twitter)?.setOnClickListener {
+            openShortcut("Twitter / X", "Paste Twitter/X post URL...")
+        }
+        view.findViewById<View>(R.id.shortcut_whatsapp)?.setOnClickListener {
+            openShortcut("WhatsApp", "Paste shared video URL...")
+        }
+        view.findViewById<View>(R.id.shortcut_share)?.setOnClickListener {
+            pasteBtn?.performClick()
+        }
+        view.findViewById<View>(R.id.shortcut_more_sites)?.setOnClickListener {
+            openShortcut("1000+ Sites", "Paste link from any supported site...")
         }
 
         searchInput?.setOnEditorActionListener { _, actionId, _ ->
