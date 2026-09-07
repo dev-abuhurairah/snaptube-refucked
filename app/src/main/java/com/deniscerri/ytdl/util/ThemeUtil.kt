@@ -140,7 +140,7 @@ object ThemeUtil {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val accent = sharedPreferences.getString("theme_accent", "yellow")
         return if (accent == "yellow"){
-            "F5B800".toInt(16)
+            Color.parseColor("#F5B800")
         }else{
             val value = TypedValue()
             context.theme.resolveAttribute(colorCode, value, true)

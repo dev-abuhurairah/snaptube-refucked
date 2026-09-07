@@ -28,22 +28,41 @@ android {
     namespace 'com.deniscerri.ytdl'
     compileSdk = 36
 
-    try {
-        def propertiesFile = rootProject.file("keystore.properties")
-        if(propertiesFile.text != ""){
-            properties.load(new FileInputStream(propertiesFile))
+    signingConfigs {
+        debug {
+            try {
+                def propertiesFile = rootProject.file("keystore.properties")
+                if (propertiesFile.exists() && propertiesFile.length() > 0) {
+                    properties.load(new FileInputStream(propertiesFile))
+                }
+            } catch (Exception ignored) {}
 
-            properties.load(new FileInputStream(propertiesFile))
-            signingConfigs {
-                debug {
-                    storeFile file(properties["signingConfig.storeFile"])
-                    storePassword properties["signingConfig.storePassword"]
-                    keyAlias properties["signingConfig.keyAlias"]
-                    keyPassword properties["signingConfig.keyPassword"]
+            def ksFile = null
+            def storeFilePath = properties["signingConfig.storeFile"]
+            if (storeFilePath != null) {
+                def f1 = file(storeFilePath)
+                if (f1.exists()) ksFile = f1
+                else {
+                    def f2 = rootProject.file(storeFilePath)
+                    if (f2.exists()) ksFile = f2
                 }
             }
+            if (ksFile == null) {
+                def f3 = file("release_keystore.jks")
+                if (f3.exists()) ksFile = f3
+                else {
+                    def f4 = rootProject.file("release_keystore.jks")
+                    if (f4.exists()) ksFile = f4
+                }
+            }
+            if (ksFile != null && ksFile.exists()) {
+                storeFile ksFile
+                storePassword properties["signingConfig.storePassword"] ?: "password"
+                keyAlias properties["signingConfig.keyAlias"] ?: "alias"
+                keyPassword properties["signingConfig.keyPassword"] ?: "password"
+            }
         }
-    }catch(IOException ignored){}
+    }
     defaultConfig {
         applicationId "com.deniscerri.ytdl"
         minSdk 24

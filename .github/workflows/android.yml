@@ -52,7 +52,8 @@ jobs:
           else
             echo "No secrets provided. Generating self-signed build keystore..."
             keytool -genkey -v -keystore app/release_keystore.jks -alias alias -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=VidSnap, OU=Dev, O=VidSnap, L=City, S=State, C=US"
-            echo "signingConfig.storeFile=../app/release_keystore.jks" > keystore.properties
+            cp app/release_keystore.jks ./release_keystore.jks
+            echo "signingConfig.storeFile=app/release_keystore.jks" > keystore.properties
             echo "signingConfig.storePassword=password" >> keystore.properties
             echo "signingConfig.keyAlias=alias" >> keystore.properties
             echo "signingConfig.keyPassword=password" >> keystore.properties
@@ -61,7 +62,25 @@ jobs:
 
       # Build ONLY the specific flavor assigned to this matrix runner
       - name: Build ${{ matrix.flavor }} APK release
-        run: ./gradlew ${{ matrix.task }} --warning-mode all
+        run: |
+          ./gradlew ${{ matrix.task }} --stacktrace --warning-mode all 2>&1 | tee build.log
+
+      - name: Upload Build Log on Failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ matrix.flavor }}
+          path: build.log
+
+      - name: Report Build Log Summary
+        if: always()
+        run: |
+          echo "## Build Log (${{ matrix.flavor }})" >> $GITHUB_STEP_SUMMARY
+          if [ -f build.log ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -n 120 build.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
 
       # Upload individual ABI artifacts for this runner's flavor
       - name: Upload arm64
