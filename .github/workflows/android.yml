@@ -52,12 +52,10 @@ jobs:
           else
             echo "No secrets provided. Generating self-signed build keystore..."
             keytool -genkey -v -keystore app/release_keystore.jks -alias alias -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=VidSnap, OU=Dev, O=VidSnap, L=City, S=State, C=US"
-            cat <<EOF > keystore.properties
-signingConfig.storeFile=../app/release_keystore.jks
-signingConfig.storePassword=password
-signingConfig.keyAlias=alias
-signingConfig.keyPassword=password
-EOF
+            echo "signingConfig.storeFile=../app/release_keystore.jks" > keystore.properties
+            echo "signingConfig.storePassword=password" >> keystore.properties
+            echo "signingConfig.keyAlias=alias" >> keystore.properties
+            echo "signingConfig.keyPassword=password" >> keystore.properties
           fi
           chmod +x gradlew
 
