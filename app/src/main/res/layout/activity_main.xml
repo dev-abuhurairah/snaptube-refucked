@@ -57,7 +57,6 @@
         android:elevation="8dp"
         app:itemIconTint="@color/selector_bottom_nav_icon"
         app:itemTextColor="@color/selector_bottom_nav_text"
-        app:itemActiveIndicatorColor="@color/vidsnap_gold_pill_bg"
         app:itemRippleColor="@color/vidsnap_gold_ripple"
         app:labelVisibilityMode="selected"
         app:itemHorizontalTranslationEnabled="false"

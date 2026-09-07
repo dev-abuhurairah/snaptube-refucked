@@ -84,7 +84,6 @@
     <style name="Widget.VidSnap.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/selector_bottom_nav_icon</item>
         <item name="itemTextColor">@color/selector_bottom_nav_text</item>
-        <item name="itemActiveIndicatorColor">@color/vidsnap_gold_pill_bg</item>
         <item name="itemRippleColor">@color/vidsnap_gold_ripple</item>
         <item name="labelVisibilityMode">selected</item>
     </style>
