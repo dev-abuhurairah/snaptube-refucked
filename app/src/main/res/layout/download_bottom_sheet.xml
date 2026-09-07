@@ -113,6 +113,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
+                android:visibility="gone"
                 android:backgroundTint="#2C2C34"
                 app:icon="@drawable/ic_clock"
                 app:iconTint="#FFFFFF"
@@ -126,15 +127,15 @@
                 android:id="@+id/bottomsheet_download_button"
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
-                android:backgroundTint="#F5B800"
-                android:textColor="#0D0D0E"
+                android:backgroundTint="#FFC83B"
+                android:textColor="#121214"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 app:cornerRadius="12dp"
                 android:elevation="4dp"
                 android:text="@string/download"
                 app:icon="@drawable/ic_down"
-                app:iconTint="#0D0D0E"
+                app:iconTint="#121214"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -149,20 +150,14 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="4dp"
             android:background="@android:color/transparent"
-            app:tabIndicatorColor="#F5B800"
+            app:tabIndicatorColor="#FFC83B"
             app:tabIndicatorHeight="3dp"
             app:tabIndicatorFullWidth="false"
-            app:tabSelectedTextColor="#F5B800"
+            app:tabSelectedTextColor="#FFC83B"
             app:tabTextColor="#8E8E93"
             app:tabRippleColor="@color/vidsnap_gold_ripple"
-            app:tabGravity="start"
-            app:tabMinWidth="80dp"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/audio" />
+            app:tabGravity="fill"
+            app:tabMode="fixed">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -172,7 +167,7 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/command" />
+                android:text="@string/audio" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -183,6 +178,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content">
 
             <Button

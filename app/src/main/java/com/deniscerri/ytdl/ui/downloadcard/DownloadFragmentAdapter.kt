@@ -21,9 +21,8 @@ class DownloadFragmentAdapter (
 
         fragments.forEachIndexed { idx, it ->
             when(idx) {
-                0 -> kotlin.runCatching { (it as DownloadAudioFragment).updateUI(res) }
-                1 -> kotlin.runCatching { (it as DownloadVideoFragment).updateUI(res) }
-                2 -> kotlin.runCatching { (it as DownloadCommandFragment).updateUI(res) }
+                0 -> kotlin.runCatching { (it as DownloadVideoFragment).updateUI(res) }
+                1 -> kotlin.runCatching { (it as DownloadAudioFragment).updateUI(res) }
             }
         }
     }
@@ -37,9 +36,8 @@ class DownloadFragmentAdapter (
 
 
     val fragments = listOf<Fragment>(
-        DownloadAudioFragment(result, downloadItem,"", nonSpecific),
         DownloadVideoFragment(result, downloadItem,"", nonSpecific),
-        DownloadCommandFragment(result, downloadItem)
+        DownloadAudioFragment(result, downloadItem,"", nonSpecific)
     )
 
     override fun getItemCount(): Int {
@@ -60,24 +58,17 @@ class DownloadFragmentAdapter (
         when(currentViewPagerItem){
             0 -> {
                 kotlin.runCatching {
-                    (fragments[0] as DownloadAudioFragment).apply {
+                    (fragments[0] as DownloadVideoFragment).apply {
                         updateTitleAuthor(prevDownloadItem.title, prevDownloadItem.author)
-                        updateSelectedAudioFormat(getDownloadItem(1).videoPreferences.audioFormatIDs.first())
+                        updateSelectedAudioFormat(getDownloadItem(1).format)
                     }
                 }
             }
             1 -> {
                 kotlin.runCatching {
-                    (fragments[1] as DownloadVideoFragment).apply {
+                    (fragments[1] as DownloadAudioFragment).apply {
                         updateTitleAuthor(prevDownloadItem.title, prevDownloadItem.author)
-                        updateSelectedAudioFormat(getDownloadItem(0).format)
-                    }
-                }
-            }
-            2 -> {
-                kotlin.runCatching {
-                    (fragments[2] as DownloadCommandFragment).apply {
-                        updateTitleAuthor(prevDownloadItem.title, prevDownloadItem.author)
+                        updateSelectedAudioFormat(getDownloadItem(0).videoPreferences.audioFormatIDs.first())
                     }
                 }
             }
@@ -87,9 +78,9 @@ class DownloadFragmentAdapter (
 
     fun getDownloadItem(position: Int) : DownloadItem {
         return when(position) {
-            0 -> (fragments[0] as DownloadAudioFragment).downloadItem
-            1 -> (fragments[1] as DownloadVideoFragment).downloadItem
-            else -> (fragments[2] as DownloadCommandFragment).downloadItem
+            0 -> (fragments[0] as DownloadVideoFragment).downloadItem
+            1 -> (fragments[1] as DownloadAudioFragment).downloadItem
+            else -> (fragments[0] as DownloadVideoFragment).downloadItem
         }.apply {
             incognito = isIncognito
         }

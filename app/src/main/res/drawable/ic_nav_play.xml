@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Rounded Screen / Frame -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M5,4h14c1.65,0 3,1.35 3,3v10c0,1.65 -1.35,3 -3,3H5c-1.65,0 -3,-1.35 -3,-3V7c0,-1.65 1.35,-3 3,-3z" />
+    <!-- Play Triangle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,8.5v7l5.5,-3.5z" />
+</vector>

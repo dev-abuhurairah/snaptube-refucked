@@ -1,0 +1,74 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="260dp"
+    android:viewportWidth="400"
+    android:viewportHeight="260">
+
+    <!-- Group rotated and tilted to match screenshot angle -->
+    <group
+        android:pivotX="200"
+        android:pivotY="130"
+        android:rotation="-14"
+        android:scaleX="1.08"
+        android:scaleY="1.08">
+
+        <!-- Row 1: Facebook, TikTok, WhatsApp, Instagram -->
+        <!-- Tile 1: Facebook (Muted Blue #1877F2 with dark alpha) -->
+        <path
+            android:fillColor="#4D1877F2"
+            android:pathData="M15,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <!-- FB Glyph 'f' -->
+        <path
+            android:fillColor="#80FFFFFF"
+            android:pathData="M52,38h7v-9h-9c-7.7,0 -11,5 -11,11v7h-7v9h7v24h10v-24h8l2,-9h-10v-5c0,-2.5 1.5,-4 5,-4z" />
+
+        <!-- Tile 2: TikTok (Muted Dark/Cyan #00F2FE with dark alpha) -->
+        <path
+            android:fillColor="#4D000000"
+            android:pathData="M115,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <path
+            android:fillColor="#8000F2FE"
+            android:pathData="M148,34c2.5,3.5 6,5.5 10,5.8v8c-3.8,-0.2 -7,-1.5 -9.5,-3.8v19c0,9.4 -7.6,17 -17,17s-17,-7.6 -17,-17 7.6,-17 17,-17c1.7,0 3.3,0.3 4.8,0.7v8.5c-1.5,-0.7 -3.1,-1.2 -4.8,-1.2 -4.7,0 -8.5,3.8 -8.5,8.5s3.8,8.5 8.5,8.5 8.5,-3.8 8.5,-8.5v-30h8z" />
+
+        <!-- Tile 3: WhatsApp (Muted Green #25D366 with dark alpha) -->
+        <path
+            android:fillColor="#4D25D366"
+            android:pathData="M215,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <path
+            android:fillColor="#80FFFFFF"
+            android:pathData="M243,30c-12.7,0 -23,10.3 -23,23 0,4.1 1.1,8 3,11.4l-3.2,11.6 12,-3.1c3.2,1.8 7,2.8 11.2,2.8 12.7,0 23,-10.3 23,-23s-10.3,-22.7 -23,-22.7z" />
+
+        <!-- Tile 4: Instagram (Muted Purple/Magenta #C13584 with dark alpha) -->
+        <path
+            android:fillColor="#4DC13584"
+            android:pathData="M315,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <path
+            android:fillColor="#80FFFFFF"
+            android:pathData="M343,35c6.5,0 7.3,0 9.8,0.1 2.4,0.1 3.6,0.5 4.5,0.8 1.1,0.4 2,1 2.9,1.9s1.4,1.8 1.9,2.9c0.4,0.9 0.7,2.1 0.8,4.5 0.1,2.5 0.1,3.3 0.1,9.8s0,7.3 -0.1,9.8c-0.1,2.4 -0.5,3.6 -0.8,4.5 -0.4,1.1 -1,2 -1.9,2.9s-1.8,1.4 -2.9,1.9c-0.9,0.4 -2.1,0.7 -4.5,0.8 -2.5,0.1 -3.3,0.1 -9.8,0.1s-7.3,0 -9.8,-0.1c-2.4,-0.1 -3.6,-0.5 -4.5,-0.8 -1.1,-0.4 -2,-1 -2.9,-1.9s-1.4,-1.8 -1.9,-2.9c-0.4,-0.9 -0.7,-2.1 -0.8,-4.5 -0.1,-2.5 -0.1,-3.3 -0.1,-9.8s0,-7.3 0.1,-9.8c0.1,-2.4 0.5,-3.6 0.8,-4.5 0.4,-1.1 1,-2 1.9,-2.9s1.8,-1.4 2.9,-1.9c0.9,-0.4 2.1,-0.7 4.5,-0.8 2.5,-0.1 3.3,-0.1 9.8,-0.1z" />
+
+        <!-- Row 2: Instagram, YouTube, Telegram, Twitter -->
+        <!-- Tile 5: Instagram row 2 -->
+        <path
+            android:fillColor="#4DE1306C"
+            android:pathData="M45,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+
+        <!-- Tile 6: YouTube Red Tile -->
+        <path
+            android:fillColor="#4DFF0000"
+            android:pathData="M145,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <path
+            android:fillColor="#80FFFFFF"
+            android:pathData="M168,144v18l15,-9z" />
+
+        <!-- Tile 7: Telegram / Twitter Blue -->
+        <path
+            android:fillColor="#4D1DA1F2"
+            android:pathData="M245,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+
+        <!-- Tile 8: Purple media tile -->
+        <path
+            android:fillColor="#4D7B1FA2"
+            android:pathData="M345,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+
+    </group>
+</vector>

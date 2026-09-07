@@ -7,13 +7,13 @@
     <!-- White TV/Screen rounded box -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M32,28h44c6,0 11,5 11,11v30c0,6 -5,11 -11,11H32c-6,0 -11,-5 -11,-11V39c0,-6 5,-11 11,-11z" />
+        android:pathData="M31,26h46c6.5,0 12,5.5 12,12v32c0,6.5 -5.5,12 -12,12H31c-6.5,0 -12,-5.5 -12,-12V38c0,-6.5 5.5,-12 12,-12z" />
     <!-- Red-Orange Downward Arrow -->
     <path
-        android:fillColor="#E64A19"
-        android:pathData="M48,37h12v13h9L54,65 39,50h9z" />
-    <!-- Red-Orange Tray Bar Under Arrow -->
+        android:fillColor="#FF3D00"
+        android:pathData="M48,36h12v14h9L54,64 39,50h9z" />
+    <!-- Red-Orange Download Tray / Bracket -->
     <path
-        android:fillColor="#E64A19"
-        android:pathData="M39,69h30c1.1,0 2,0.9 2,2s-0.9,2 -2,2H39c-1.1,0 -2,-0.9 -2,-2s0.9,-2 2,-2z" />
+        android:fillColor="#FF3D00"
+        android:pathData="M38,65h4v4h24v-4h4v6c0,1.5 -1.2,2.7 -2.7,2.7h-26.6c-1.5,0 -2.7,-1.2 -2.7,-2.7z" />
 </vector>

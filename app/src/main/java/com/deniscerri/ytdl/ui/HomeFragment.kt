@@ -1159,9 +1159,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
             }
         }
 
+        var isSearching = false
         fun executeSearch(text: String) {
             val query = text.trim()
-            if (query.isNotEmpty()) {
+            if (query.isNotEmpty() && !isSearching) {
+                isSearching = true
                 queryList = mutableListOf(query)
                 searchBar?.setText(query)
                 if (!sharedPreferences!!.getBoolean("incognito", false)) {
@@ -1180,11 +1182,26 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
                                 resultItem = downloadViewModel.createEmptyResultItem(query),
                                 type = parsedType
                             )
+                            isSearching = false
                         }
                     }
                 } else {
                     startSearch()
+                    isSearching = false
                 }
+            }
+        }
+
+        view.findViewById<View>(R.id.vidsnap_search_bar_layout)?.setOnClickListener {
+            searchInput?.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.showSoftInput(searchInput, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        searchInput?.doAfterTextChanged { editable ->
+            val text = editable?.toString()?.trim() ?: ""
+            if (text.isURL() || Patterns.WEB_URL.matcher(text).matches()) {
+                executeSearch(text)
             }
         }
 

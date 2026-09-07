@@ -130,7 +130,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             try {
                 title = view.findViewById(R.id.title_textinput)
-                title.visibility = if (shownFields.contains("title") && !nonSpecific) View.VISIBLE else View.GONE
+                title.visibility = View.GONE
                 if (title.editText?.text?.isEmpty() == true){
                     title.editText!!.setText(downloadItem.title)
                     title.endIconMode = END_ICON_NONE
@@ -144,7 +144,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
                 })
 
                 author = view.findViewById(R.id.author_textinput)
-                author.visibility = if (shownFields.contains("author") && !nonSpecific) View.VISIBLE else View.GONE
+                author.visibility = View.GONE
                 if (author.editText?.text?.isEmpty() == true){
                     author.editText!!.setText(downloadItem.author)
                     author.endIconMode = END_ICON_NONE
@@ -186,6 +186,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
                 }
 
                 saveDir = view.findViewById(R.id.outputPath)
+                saveDir.visibility = View.GONE
                 saveDir.editText!!.setText(
                     FileUtil.formatPath(downloadItem.downloadPath)
                 )
@@ -200,10 +201,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
                 }
 
                 freeSpace = view.findViewById(R.id.freespace)
-                val free = FileUtil.convertFileSize(
-                    File(FileUtil.formatPath(downloadItem.downloadPath)).freeSpace)
-                freeSpace.text = String.format( getString(R.string.freespace) + ": " + free)
-                if (free == "?") freeSpace.visibility = View.GONE
+                freeSpace.visibility = View.GONE
 
 
                 var formats = mutableListOf<Format>()
@@ -229,7 +227,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
 
                 val containers = requireContext().resources.getStringArray(R.array.video_containers)
                 val container = view.findViewById<TextInputLayout>(R.id.downloadContainer)
-                container.visibility = if (shownFields.contains("container")) View.VISIBLE else View.GONE
+                container.visibility = View.GONE
                 if (nonSpecific){
                     val param = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -352,7 +350,7 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
                     downloadItem.container = "mp4"
                 }
                 view.findViewById<LinearLayout>(R.id.adjust).apply {
-                    visibility = if (shownFields.contains("adjust_video")) View.VISIBLE else View.GONE
+                    visibility = View.GONE
                     if (isVisible){
                         UiUtil.configureVideo(
                             view,
