@@ -1,201 +1,148 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
-</h1>
+﻿<div align="center">
 
-<div align="center">
-	English
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-sq.md">Shqip</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-az.md">Azərbaycanca</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-tr.md">Türkçe</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-id.md">Indonesia</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-pt.md">Português</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-es.md">Español</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-ja.md">Japanese</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-zh_CN.md">简体中文</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-ro.md">Română</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-ar.md">العربية</a>
-</div>
+# ⚡ VidSnap
 
-<h3 align="center">
-	YTDLnis is a free and open source video/audio downloader using yt-dlp for Android 7.0 and above.
-</h3>
-<h4 align="center">
-	Created by Denis Çerri
-</h4>
+### Fast, Clean & Modern Snaptube-Inspired Video & Audio Downloader for Android
 
-<div align="center">
+[![Android CI](https://github.com/dev-abuhurairah/snaptube-refucked/actions/workflows/android.yml/badge.svg)](https://github.com/dev-abuhurairah/snaptube-refucked/actions/workflows/android.yml)
+[![Latest Release](https://img.shields.io/github/v/release/dev-abuhurairah/snaptube-refucked?color=FFC83B&label=Release&style=flat-square)](https://github.com/dev-abuhurairah/snaptube-refucked/releases)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](LICENSE)
+[![Android](https://img.shields.io/badge/Android-7.0%2B-green.svg?style=flat-square)](https://developer.android.com)
+[![Ad-Free](https://img.shields.io/badge/Ads-Free-success.svg?style=flat-square)](#)
 
-[![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![Uptodown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+<p align="center">
+  <b>Built with ❤️ by <a href="https://github.com/dev-abuhurairah">dev-abuhurairah</a></b>
+</p>
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Translation status](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![community](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
+---
 
-### Only the links above are the only trusted sources of YTDLnis. Everything else is not related to me.
+[Features](#-key-features) •
+[Download](#-download--install) •
+[Flavors Explained](#-build-flavors) •
+[Direct Share Guide](#-how-to-use) •
+[Building](#-%EF%B8%8F-building-from-source) •
+[License](#-license)
 
 </div>
 
-## 💡 Features:
+---
 
-- Download audio/video files from more than <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1000 websites</a>
-- Process playlists
-	- Edit every playlist item separately just like in a normal download item
-	- Select a common format for all items and/or select multiple audio formats in case you are downloading them as a video
-	- Select a download path for all items
-	- Select a filename template for all items
-	- Batch update download type to audio/video/custom command in one click
-- Queue downloads and schedule them by date and time
-	- You can also schedule multiple items at the same time
-- Download multiple items at the same time
-- Use custom commands and templates or use yt-dlp with the built-in terminal
-	- You can backup and restore templates so you can share them with your buddies
-- Supports cookies. Log in with your accounts and download private/unavailable videos, unlock premium formats etc.
-- Cut videos based on timestamps and video chapters (experimental yt-dlp feature)
-	- You can make unlimited cuts
-- Remove SponsorBlock elements from downloaded items
-	- Embed them as a chapters in your video 
-- Embed subtitles/metadata/chapters etc
-- Modify metadata such as title and author
-- Split item into separate files depending on its chapters
-- Select different download formats
-- Bottom card right from the share menu, no need to open the app 
-	- You can create a txt file and fill it with links/playlists/search queries separate by a new line and the app will process them
-- Search or insert a link from the app
-	- You can stack searches so you can process them at the same time
-- Log downloads in case of problems
-- Re-download cancelled or failed downloads
-	- You can use gestures to swipe left to redownload and right to delete
-	- You can long click the redownload button in the details sheet to show the download card for more functionality
-- Incognito mode when you don't want to save a download history or logs
-- Quick download mode
-	- Download immediately without having to wait for data to process. Turn off the bottom card and it will instantly start
-- Open / share downloaded files right from the finished notification
-- Most yt-dlp features are implemented, suggestions are welcome
-- Material You interface
-- Theming options
-- Backup and restore features
-- MVVM architecture with WorkManager
+## 🌟 Overview
 
-## 🧩 Plugin Support
+**VidSnap** is an open-source, ad-free Android media downloader engineered for speed, elegance, and simplicity. Combining the intuitive user experience of **Snaptube** with the unmatched scraping power of **yt-dlp**, **FFmpeg**, and **Aria2c**, VidSnap allows you to download video and audio from over 1,000+ websites in maximum quality with zero interruptions.
 
-YTDLnis orchestrates plugins so users can freely upgrade and downgrade components such as:
-- Python
-- JS Runtimes (NodeJS, Deno)
-- FFmpeg
-- Aria2c
+---
 
-You can install ytdlnis packages from this repository [ytdlnis-packages](https://github.com/deniscerri/ytdlnis-packages/) or through the updating section in the application.
-<br>For more information refer to the repo's README.
+## 💡 Key Features
 
-## 📲 Screenshots
+### 🎨 Snaptube-Inspired Modern UI
+* **Clean Home Dashboard:** Centered golden *VidSnap* typography with a pill search bar and instant clipboard detection.
+* **Compact Floating Bottom Sheet:** A modern floating card with side margins (`16dp`) and rounded corners (`24dp`) that never stretches across the entire screen.
+* **Curated Format Cards:** Cleanly organized into **Music** (MP3 Classic, M4A Audio) and **Video** (4K, 2K, 1080p HD, 720p HD, 480p, 360p) with live file size estimates.
+* **Single Radio Selection:** Visual check indicators for one-tap format picking, defaulting automatically to 720p HD / 1080p HD.
+* **Expandable Extra Formats:** An accessible *"More formats (All >)"* toggle to explore alternative codecs and resolutions when needed.
 
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
+### ⚡ Seamless Direct Share & Paste
+* **1-Click Share Menu:** Share video links directly from **YouTube, Instagram, Facebook, TikTok, Twitter/X, WhatsApp, Reddit**, or web browsers to VidSnap. The download sheet pops up instantly.
+* **Paste from Clipboard:** A prominent `[ 📋 Paste Link from Clipboard ]` button automatically detects copied links and triggers animated shimmer format extraction.
 
-## 💬 Contact
+### 🚀 High-Speed Engine (yt-dlp + Aria2c + FFmpeg)
+* **Multi-Connection Turbo Downloading:** Powered by Aria2c for parallel segment downloads that saturate your connection.
+* **Lossless Audio/Video Muxing:** High-resolution video streams (1080p, 2K, 4K) are seamlessly combined with top-tier audio tracks using FFmpeg on device.
+* **1000+ Supported Sites:** Supports YouTube, Reels, TikTok (no watermark), Twitter/X videos, SoundCloud, Vimeo, and [hundreds more](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 
-Join our [Discord](https://discord.gg/WW3KYWxAPm) or [Telegram channel](https://t.me/ytdlnis) for announcements, discussion and releases.
+### 🎛️ Power-User Controls
+* **Background Downloads:** Reliable background queuing via Android Jetpack `WorkManager`.
+* **Video Chapter Cutting:** Trim or cut videos based on timestamps or embedded chapters.
+* **SponsorBlock Integration:** Automatically skip sponsored segments, intros, and outros.
+* **Metadata & Subtitles:** Embed thumbnails, chapter markers, and multilingual subtitles (`.srt` / `.vtt`).
+* **Incognito Mode:** Download without saving logs or history.
+* **Custom File Templates:** Organize downloads by `%(uploader)s/ %(title)s.%(ext)s` or custom naming templates.
 
-## 😇 Contributing
+---
 
-Please read the [contributing](CONTRIBUTING.MD) section if you would like to contribute.
+## 📲 Download & Install
 
-## 📝 Help translate on Weblate
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="Translation status" />
-</a>
+Download the latest APK directly from the [Releases](https://github.com/dev-abuhurairah/snaptube-refucked/releases) or the automated [GitHub Actions CI Artifacts](https://github.com/dev-abuhurairah/snaptube-refucked/actions):
 
+| Package Flavor | Recommended For | Size | Auto-Updater |
+|---|---|---|:---:|
+| **[VidSnap (GitHub Release)](https://github.com/dev-abuhurairah/snaptube-refucked/releases)** | **Most Users (Direct APK)** | ~65 MB | ✅ Yes |
+| **[VidSnap (FOSS Release)](https://github.com/dev-abuhurairah/snaptube-refucked/releases)** | F-Droid Store / Strict FOSS | ~65 MB | ❌ No |
+| **[VidSnap (Izzy Release)](https://github.com/dev-abuhurairah/snaptube-refucked/releases)** | Lightweight / IzzyOnDroid | ~47 MB | ❌ No |
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="Translation status" />
-</a>
+---
 
-## 🔑 Connect with third-party apps using the package name
+## 🔍 Build Flavors Explained
 
-The app's package name is "com.deniscerri.ytdl".
+* **`github` (Recommended):** Fully bundled with Python 3.14, Aria2c, and FFmpeg. Includes built-in in-app update checking and installation so you always stay up to date.
+* **`foss`:** Compliant with F-Droid inclusion guidelines. Self-updating code and package install permissions are excluded in accordance with F-Droid policies.
+* **`izzy`:** Optimized for the IzzyOnDroid repository, using an external Python runtime layer to keep the initial APK footprint under 50 MB.
 
-## 🔍 Verify application signature
+---
 
-The app should contain the signature below. The github workflow action uses it, and the releases are based on it to make it a reproducible build.
-If the signature is different, your third party distributor has modified the application. Please use the app with the original signature.
-```
-Signer #1 certificate DN: CN=Denis Cerri, OU=Personal, O=Personal, L=Albania, ST=Albania, C=AL
-Signer #1 certificate SHA-256 digest: 263645cb5272eb290759fe1f59149ae24df6ce171e9f6666eead981d3fc64c95
-Signer #1 certificate SHA-1 digest: 2fec9c2fcef68d29a60857e185c795fec5f56fb6
-Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
+## 📖 How to Use
+
+### Method 1: Share Link from Any App
+1. Open any app (YouTube, Instagram, TikTok, Facebook, Twitter, browser, etc.).
+2. Tap **Share** on any video.
+3. Select **VidSnap** from the share sheet.
+4. Pick your desired quality (Music MP3/M4A or Video 1080p/720p/etc.) and tap **Download**!
+
+### Method 2: Copy & Paste
+1. Copy the video link to your clipboard.
+2. Open **VidSnap**.
+3. Tap **"Paste Link from Clipboard"** or paste in the search bar.
+4. Select your format and tap **Download**.
+
+---
+
+## 🛠️ Building from Source
+
+### Prerequisites
+* **Android Studio** (Hedgehog or newer recommended)
+* **JDK 17** (Amazon Corretto or Eclipse Temurin)
+* **Android SDK** (API 36, Build-Tools 36.0.0)
+
+### Steps
+```bash
+# 1. Clone the repository
+git clone https://github.com/dev-abuhurairah/snaptube-refucked.git
+cd snaptube-refucked
+
+# 2. Build the GitHub release APK
+./gradlew assembleGithubRelease
+
+# 3. Output APK location:
+# app/build/outputs/apk/github/release/VidSnap-*.apk
 ```
 
+---
 
-## 🤖 Connect with third-party apps using intents
+## 🤝 Contributing
 
-You can use intents to push commands to the app to run downloads without user interaction.
-Accepted variables:
+Contributions, bug reports, and suggestions are warmly welcome!
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/cool-feature`).
+3. Commit your changes (`git commit -m 'feat: add cool feature'`).
+4. Push to the branch (`git push origin feature/cool-feature`).
+5. Open a Pull Request.
 
-<b>TYPE</b> -> it can be: audio,video,command <br/>
-<b>BACKGROUND</b> -> it can be: true,false. If its true the app won't show the download card no matter what and run the download in the background <br/>
+---
 
-### An example of downloading an audio item in the background with Tasker
-1. Create Send Intent task
-2. Action: android.intent.action.SEND
-3. Cat: Default
-4. Mime Type: text/*
-5. Extra: android.intent.extra.TEXT:url (instead of "url" write the URL of the video you want to download)
-6. Extra: TYPE:audio
-7. Extra: BACKGROUND:true
+## 📜 License & Credits
 
-## 📄 License
+* **Author:** [dev-abuhurairah](https://github.com/dev-abuhurairah) (`contactabuhurairah@gmail.com`)
+* **License:** Distributed under the **GNU General Public License v3.0 (GPLv3)**. See [LICENSE](LICENSE) for details.
+* **Underlying Engines:**
+  * [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+  * [ffmpeg-android-maker](https://github.com/Javernaut/ffmpeg-android-maker)
+  * [aria2](https://github.com/aria2/aria2)
+  * Foundation inspired by open-source YTDLnis project by Denis Çerri.
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+---
 
-Except for the source code licensed under the GPLv3 license, all other parties are prohibited from using the "YTDLnis" name as a downloader app, and the same is true for its derivatives. Derivatives include but are not limited to forks and unofficial builds.
-
-## 😁 Donate
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
-
-## 🙏 Thanks
-
-- [decipher3114](https://github.com/decipher3114) for the app's icon
-- [dvd](https://github.com/yausername/dvd) for being an example youtubedl-android implementation
-- [seal](https://github.com/JunkFood02/Seal) for certain design elements and features I wanted to have in this app when I started developing it
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) for porting yt-dlp to Android
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) and its contributors for making this tool possible. Without it this app wouldn't exist
-
-
-and to a lot of other people, such as contributors.
+<div align="center">
+  <b>VidSnap</b> — Fast & Simple Media Downloader for Android.<br>
+  Developed with ❤️ by <a href="https://github.com/dev-abuhurairah">dev-abuhurairah</a>
+</div>
