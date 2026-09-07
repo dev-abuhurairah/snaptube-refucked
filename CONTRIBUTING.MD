@@ -1,43 +1,43 @@
-# Preface
+# Contributing to VidSnap
+
 Before reading, you may know what yt-dlp is and what it does. In short, it's a CLI (command-line interface) program written in Python, which lets you download audios or videos from 1000+ websites.
 
-For bug reports and feature requests, please search in issues first (including the closed ones). If there're no duplicates, feel free to submit an issue with an issue template.
+For bug reports and feature requests, please search in issues first (including closed ones). If there are no duplicates, feel free to submit an issue with the provided templates.
 
-We will probably ignore and close your issue if it's not using the existing templates or doesn't contain a sufficient description.
+We will likely close your issue if it doesn't use the existing templates or lacks a sufficient description.
 
-For questions or any other ideas to improve, you can join or start a new discussion, talk in the Discord server or in the Telegram group.
+For questions or ideas to improve VidSnap, feel free to open an issue or discussion on GitHub.
 
 ## Bug report
-When submitting a bug report, please make sure your issue contains enough information for reproducing the problem, including the options or the custom command being used, the link to the video, and other fields in the issue template if there is one. A video recording of the problem can be very helpful.
+When submitting a bug report, please make sure your issue contains enough information for reproducing the problem, including the options or custom command being used, the video link, and other fields in the issue template. A video recording or crash log can be very helpful.
 
 ## Feature request
-YTDLnis is and will remain a simple GUI for yt-dlp, providing most of the functionality of yt-dlp as is, without modifications. Thus, we will not take requests for features that yt-dlp does not support.
+VidSnap is designed as a clean, powerful, and intuitive Android frontend for yt-dlp. Features should align with yt-dlp capabilities and mobile user experience.
 
-The app has three download modes:
+The app supports multiple download modes:
 
-- <b>General mode</b>: Save as audio, download playlist, and many other options that can be used individually or combined for normal download tasks. Once the download is complete, YTDLnis will scan the files into the system media library, and store them in the download history.
-- <b>Custom command mode</b>: For advanced usage of yt-dlp, a user can create and store multiple command templates in the app, then select and use one of them directly to execute the yt-dlp command like in a terminal. In this mode, all of the GUI options and features in the general mode will be disabled.
-  Since most of the functions can be implemented in custom command mode, the "feature request" would be treated as adding a shortcut to the general mode. However, not all feature requests will be accepted and implemented in the app. Why not add an option for that?
-- <b>Terminal mode</b>: A CLI-like interface for using yt-dlp
+- <b>General mode</b>: Save as audio, download playlist, and many other options that can be used individually or combined for normal download tasks. Once the download is complete, VidSnap scans the files into the system media library and stores them in download history.
+- <b>Custom command mode</b>: For advanced usage of yt-dlp, create and store multiple command templates to execute custom commands directly.
+- <b>Terminal mode</b>: A CLI-like interface for executing yt-dlp commands directly.
 
 ## Pull request
-If you wish to contribute to the project by submitting code directly, please first leave a comment under the relevant issue or file a new issue and describe the changes you are about to make.
+If you wish to contribute to the project by submitting code directly, please first open an issue or comment on an existing issue describing the changes you plan to make.
 
-To avoid multiple pull requests resolving the same issue, let others know you are working on it by saying so in a comment or ask the issue to be assigned to yourself.
+To avoid duplicate work, comment on the issue before beginning work.
 
 ## Building from Source
-Fork this project, import and compile it with the latest version of Android Studio Canary.
+Fork this project, clone it, and open it with Android Studio (or build via Gradle / GitHub Actions).
 
 ## AI Contribution Policy
 
-Generative AI may be used for contributions as long as the contributor is fully aware of the content generated, takes full responsibility for it and ensured that no copyrighted content from third parties is included.
+Generative AI may be used for contributions as long as the contributor is fully aware of the content generated, takes full responsibility for it, and ensures that no copyrighted content from third parties is included.
 
 We welcome contributions assisted by AI tools, provided they follow these rules:
 
-1. **Human-responsibility:** You are 100% responsible for the code you submit. You must understand every line of the AI-generated output.
-2. **No "Dry" Submissions:** Do not submit AI-generated code that you have not locally compiled, tested, and verified.
-3. **Disclosure:** If a significant portion of your PR (e.g., a new module or complex function) was generated by AI, please state so in the PR description.
-4. **Licensing Compliance:** Ensure that the AI tool you use does not violate our project's [LICENSE](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE). You must ensure you have the right to contribute the generated code.
-5. **Succinctness:** AI tends to be verbose. Please prune any unnecessary comments or boilerplate generated by the tool before submitting.
+1. **Human responsibility:** You are 100% responsible for the code you submit. You must understand every line of the AI-generated output.
+2. **No "Dry" Submissions:** Do not submit AI-generated code that you have not compiled, tested, and verified.
+3. **Disclosure:** If a significant portion of your PR was generated by AI, please state so in the PR description.
+4. **Licensing Compliance:** Ensure that the AI tool you use does not violate our project's [LICENSE](LICENSE). You must have the right to contribute the generated code.
+5. **Succinctness:** Please prune any unnecessary comments or boilerplate generated by AI tools before submitting.
 
 **Failure to follow these guidelines may result in your Pull Request being closed without review.**

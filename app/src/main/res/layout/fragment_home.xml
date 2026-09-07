@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/home_top_background_mosaic"
         android:layout_width="match_parent"
-        android:layout_height="320dp">
+        android:layout_height="440dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -22,6 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/gradient_home_overlay" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient_bottom_fade" />
 
     </FrameLayout>
 

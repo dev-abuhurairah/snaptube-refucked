@@ -1,11 +1,5 @@
-blank_issues_enabled: false
+﻿blank_issues_enabled: true
 contact_links:
-  - name: GitHub discussions
-    url: https://github.com/deniscerri/ytdlnis/discussions
-    about: Discuss or ask questions here
-  - name: Telegram group
-    url: https://t.me/ytdlnis
-    about: You can also chat or ask questions here
-  - name: Discord server
-    url: https://discord.gg/WW3KYWxAPm
-    about: You can also chat or ask questions here
+  - name: GitHub Issues
+    url: https://github.com/dev-abuhurairah/snaptube-refucked/issues
+    about: Ask questions or discuss features here

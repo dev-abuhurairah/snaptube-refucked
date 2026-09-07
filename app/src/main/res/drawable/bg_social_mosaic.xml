@@ -1,74 +1,331 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="400dp"
-    android:height="260dp"
-    android:viewportWidth="400"
-    android:viewportHeight="260">
+    android:width="480dp"
+    android:height="380dp"
+    android:viewportWidth="480"
+    android:viewportHeight="380">
 
-    <!-- Group rotated and tilted to match screenshot angle -->
+    <!-- Ambient Subtle Glow Lighting -->
+    <path
+        android:fillColor="#14F5B800"
+        android:pathData="M240,80m-130,0a130,130 0 1,0 260,0a130,130 0 1,0 -260,0" />
+    <path
+        android:fillColor="#1000F2FE"
+        android:pathData="M80,120m-90,0a90,90 0 1,0 180,0a90,90 0 1,0 -180,0" />
+    <path
+        android:fillColor="#10E1306C"
+        android:pathData="M400,100m-90,0a90,90 0 1,0 180,0a90,90 0 1,0 -180,0" />
+
+    <!-- Modern Tilted Glassmorphic Grid (Dynamic -8° angle) -->
     <group
-        android:pivotX="200"
-        android:pivotY="130"
-        android:rotation="-14"
-        android:scaleX="1.08"
-        android:scaleY="1.08">
+        android:pivotX="240"
+        android:pivotY="190"
+        android:rotation="-8"
+        android:scaleX="1.04"
+        android:scaleY="1.04">
 
-        <!-- Row 1: Facebook, TikTok, WhatsApp, Instagram -->
-        <!-- Tile 1: Facebook (Muted Blue #1877F2 with dark alpha) -->
-        <path
-            android:fillColor="#4D1877F2"
-            android:pathData="M15,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
-        <!-- FB Glyph 'f' -->
-        <path
-            android:fillColor="#80FFFFFF"
-            android:pathData="M52,38h7v-9h-9c-7.7,0 -11,5 -11,11v7h-7v9h7v24h10v-24h8l2,-9h-10v-5c0,-2.5 1.5,-4 5,-4z" />
+        <!-- ============================================== -->
+        <!-- ROW 1 (Y = 16): YouTube, TikTok, Instagram, WhatsApp, Spotify, X -->
+        <!-- ============================================== -->
 
-        <!-- Tile 2: TikTok (Muted Dark/Cyan #00F2FE with dark alpha) -->
+        <!-- Card 1-1: YouTube (X = -22, Y = 16) -->
         <path
-            android:fillColor="#4D000000"
-            android:pathData="M115,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#24FF0000"
+            android:pathData="M-6,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#45FF3333"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M-6,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#CCFF0000"
+            android:pathData="M-8,37h28c4,0 7,3 7,7v4c0,4 -3,7 -7,7h-28c-4,0 -7,-3 -7,-7v-4c0,-4 3,-7 7,-7z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M3,42v8l7,-4z" />
+
+        <!-- Card 1-2: TikTok (X = 62, Y = 16) -->
+        <path
+            android:fillColor="#2200F2FE"
+            android:pathData="M78,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#4500F2FE"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M78,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- TikTok Note Cyan Underlayer -->
         <path
             android:fillColor="#8000F2FE"
-            android:pathData="M148,34c2.5,3.5 6,5.5 10,5.8v8c-3.8,-0.2 -7,-1.5 -9.5,-3.8v19c0,9.4 -7.6,17 -17,17s-17,-7.6 -17,-17 7.6,-17 17,-17c1.7,0 3.3,0.3 4.8,0.7v8.5c-1.5,-0.7 -3.1,-1.2 -4.8,-1.2 -4.7,0 -8.5,3.8 -8.5,8.5s3.8,8.5 8.5,8.5 8.5,-3.8 8.5,-8.5v-30h8z" />
+            android:pathData="M102,33c2.4,3 5.4,4.6 9,4.8v6.2c-3.2,-0.2 -6,-1.4 -8,-3.2v15.2c0,7.8 -6.3,14 -14,14s-14,-6.2 -14,-14 6.2,-14 14,-14c1.4,0 2.8,0.2 4,0.6v6.8c-1.2,-0.5 -2.6,-0.8 -4,-0.8 -3.9,0 -7,3.1 -7,7s3.1,7 7,7 7,-3.1 7,-7v-23.6h7z" />
+        <!-- TikTok Note Pink & White Foregrounds -->
+        <path
+            android:fillColor="#99FE2C55"
+            android:pathData="M103.5,34.5c2.4,3 5.4,4.6 9,4.8v6.2c-3.2,-0.2 -6,-1.4 -8,-3.2v15.2c0,7.8 -6.3,14 -14,14s-14,-6.2 -14,-14 6.2,-14 14,-14c1.4,0 2.8,0.2 4,0.6v6.8c-1.2,-0.5 -2.6,-0.8 -4,-0.8 -3.9,0 -7,3.1 -7,7s3.1,7 7,7 7,-3.1 7,-7v-23.6h7z" />
+        <path
+            android:fillColor="#E6FFFFFF"
+            android:pathData="M103,34c2.2,2.8 5,4.2 8.4,4.5v5.5c-3,-0.2 -5.5,-1.2 -7.4,-2.8v14.8c0,7.2 -5.8,13 -13,13s-13,-5.8 -13,-13 5.8,-13 13,-13c1.3,0 2.6,0.2 3.7,0.5v6.2c-1.1,-0.5 -2.4,-0.7 -3.7,-0.7 -3.6,0 -6.5,2.9 -6.5,6.5s2.9,6.5 6.5,6.5 6.5,-2.9 6.5,-6.5v-22h5.5z" />
 
-        <!-- Tile 3: WhatsApp (Muted Green #25D366 with dark alpha) -->
+        <!-- Card 1-3: Instagram (X = 146, Y = 16) -->
         <path
-            android:fillColor="#4D25D366"
-            android:pathData="M215,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#24E1306C"
+            android:pathData="M162,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
         <path
-            android:fillColor="#80FFFFFF"
-            android:pathData="M243,30c-12.7,0 -23,10.3 -23,23 0,4.1 1.1,8 3,11.4l-3.2,11.6 12,-3.1c3.2,1.8 7,2.8 11.2,2.8 12.7,0 23,-10.3 23,-23s-10.3,-22.7 -23,-22.7z" />
+            android:strokeColor="#50E1306C"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M162,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- Instagram Camera Glyph -->
+        <path
+            android:strokeColor="#E6FFFFFF"
+            android:strokeWidth="2.2"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M168,39c0,-4 3,-7 7,-7h14c4,0 7,3 7,7v14c0,4 -3,7 -7,7h-14c-4,0 -7,-3 -7,-7z" />
+        <path
+            android:strokeColor="#E6FFFFFF"
+            android:strokeWidth="2.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M178,46m-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0" />
+        <path
+            android:fillColor="#E6FFFFFF"
+            android:pathData="M190,37m-1.5,0a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0" />
 
-        <!-- Tile 4: Instagram (Muted Purple/Magenta #C13584 with dark alpha) -->
+        <!-- Card 1-4: WhatsApp (X = 230, Y = 16) -->
         <path
-            android:fillColor="#4DC13584"
-            android:pathData="M315,10h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#2425D366"
+            android:pathData="M246,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
         <path
-            android:fillColor="#80FFFFFF"
-            android:pathData="M343,35c6.5,0 7.3,0 9.8,0.1 2.4,0.1 3.6,0.5 4.5,0.8 1.1,0.4 2,1 2.9,1.9s1.4,1.8 1.9,2.9c0.4,0.9 0.7,2.1 0.8,4.5 0.1,2.5 0.1,3.3 0.1,9.8s0,7.3 -0.1,9.8c-0.1,2.4 -0.5,3.6 -0.8,4.5 -0.4,1.1 -1,2 -1.9,2.9s-1.8,1.4 -2.9,1.9c-0.9,0.4 -2.1,0.7 -4.5,0.8 -2.5,0.1 -3.3,0.1 -9.8,0.1s-7.3,0 -9.8,-0.1c-2.4,-0.1 -3.6,-0.5 -4.5,-0.8 -1.1,-0.4 -2,-1 -2.9,-1.9s-1.4,-1.8 -1.9,-2.9c-0.4,-0.9 -0.7,-2.1 -0.8,-4.5 -0.1,-2.5 -0.1,-3.3 -0.1,-9.8s0,-7.3 0.1,-9.8c0.1,-2.4 0.5,-3.6 0.8,-4.5 0.4,-1.1 1,-2 1.9,-2.9s1.8,-1.4 2.9,-1.9c0.9,-0.4 2.1,-0.7 4.5,-0.8 2.5,-0.1 3.3,-0.1 9.8,-0.1z" />
+            android:strokeColor="#4525D366"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M246,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- WhatsApp Speech Bubble & Phone -->
+        <path
+            android:fillColor="#D9FFFFFF"
+            android:pathData="M262,33c-8.8,0 -16,7.2 -16,16 0,3 0.8,5.8 2.2,8.2l-2.2,8 8.2,-2.1c2.3,1.3 5,2 7.8,2 8.8,0 16,-7.2 16,-16s-7.2,-16.1 -16,-16.1zM269.8,55.5c-0.4,1 -2,1.8 -2.8,1.9 -0.8,0.1 -1.7,0.2 -5.5,-1.4 -4.8,-2 -7.8,-6.9 -8,-7.2 -0.2,-0.3 -2,-2.7 -2,-5.1 0,-2.4 1.3,-3.6 1.7,-4.1 0.4,-0.5 1,-0.6 1.4,-0.6 0.4,0 0.7,0 1,0 0.3,0 0.8,-0.1 1.2,0.9 0.4,1 1.4,3.5 1.5,3.8 0.1,0.3 0.2,0.6 0,1 -0.2,0.4 -0.3,0.6 -0.6,0.9 -0.3,0.4 -0.6,0.8 -0.9,1.1 -0.3,0.3 -0.6,0.6 -0.3,1.2 0.4,0.6 1.6,2.6 3.5,4.3 2.4,2.1 4.4,2.8 5.1,3.1 0.6,0.3 1,0.3 1.4,-0.2 0.4,-0.5 1.6,-1.9 2,-2.5 0.4,-0.6 0.8,-0.5 1.4,-0.3 0.6,0.2 3.7,1.8 4.3,2.1 0.6,0.3 1,0.5 1.1,0.7 0.2,0.4 0.2,1.8 -0.2,2.8z" />
 
-        <!-- Row 2: Instagram, YouTube, Telegram, Twitter -->
-        <!-- Tile 5: Instagram row 2 -->
+        <!-- Card 1-5: Spotify (X = 314, Y = 16) -->
         <path
-            android:fillColor="#4DE1306C"
-            android:pathData="M45,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#241ED760"
+            android:pathData="M330,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#451ED760"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M330,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- Spotify Curved Wave Arcs -->
+        <path
+            android:strokeColor="#D91ED760"
+            android:strokeWidth="2.8"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M334,42c8,-2.5 17,-1.5 24,2.5" />
+        <path
+            android:strokeColor="#D91ED760"
+            android:strokeWidth="2.4"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M336,49c6.5,-2 14,-1.2 20,2" />
+        <path
+            android:strokeColor="#D91ED760"
+            android:strokeWidth="2.0"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M338,56c5,-1.5 11,-1 16,1.5" />
 
-        <!-- Tile 6: YouTube Red Tile -->
+        <!-- Card 1-6: X / Twitter (X = 398, Y = 16) -->
         <path
-            android:fillColor="#4DFF0000"
-            android:pathData="M145,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#20FFFFFF"
+            android:pathData="M414,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
         <path
-            android:fillColor="#80FFFFFF"
-            android:pathData="M168,144v18l15,-9z" />
+            android:strokeColor="#40FFFFFF"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M414,16h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- Crisp 'X' Logo -->
+        <path
+            android:fillColor="#D9FFFFFF"
+            android:pathData="M418,36l8.8,11.7 -8.6,10.3h2.6l7.3,-8.7 6.1,8.7h8.4l-9.3,-12.4 8.2,-9.6h-2.6l-6.8,8 -5.6,-8zM421.8,38h3.9l14.2,18h-3.9z" />
 
-        <!-- Tile 7: Telegram / Twitter Blue -->
-        <path
-            android:fillColor="#4D1DA1F2"
-            android:pathData="M245,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+        <!-- ============================================== -->
+        <!-- ROW 2 (Y = 100): Staggered Offset (-42dp) -->
+        <!-- Facebook, SoundCloud, Telegram, YouTube, TikTok, Instagram -->
+        <!-- ============================================== -->
 
-        <!-- Tile 8: Purple media tile -->
+        <!-- Card 2-1: Facebook (X = 20, Y = 100) -->
         <path
-            android:fillColor="#4D7B1FA2"
-            android:pathData="M345,115h56c8.8,0 16,7.2 16,16v56c0,8.8 -7.2,16 -16,16h-56c-8.8,0 -16,-7.2 -16,-16v-56c0,-8.8 7.2,-16 16,-16z" />
+            android:fillColor="#241877F2"
+            android:pathData="M36,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#451877F2"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M36,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#D9FFFFFF"
+            android:pathData="M55,120h5v-6h-7c-5.5,0 -8,3.5 -8,8v5h-5v6h5v17h7v-17h6l1,-6h-7v-4c0,-1.8 1,-3 3,-3z" />
+
+        <!-- Card 2-2: SoundCloud / Audio Equalizer (X = 104, Y = 100) -->
+        <path
+            android:fillColor="#24FF5500"
+            android:pathData="M120,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#45FF5500"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M120,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- Modern Equalizer Audio Bars -->
+        <path
+            android:fillColor="#E6FF7722"
+            android:pathData="M123,130h3v8h-3z M128,124h3v18h-3z M133,118h3v28h-3z M138,122h3v22h-3z M143,128h3v12h-3z" />
+
+        <!-- Card 2-3: Telegram (X = 188, Y = 100) -->
+        <path
+            android:fillColor="#24229ED9"
+            android:pathData="M204,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#45229ED9"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M204,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <!-- Telegram Paper Plane -->
+        <path
+            android:fillColor="#D9FFFFFF"
+            android:pathData="M208,131l22,-10 -4,16 -6,-4 -4,4 -0.5,-5z" />
+
+        <!-- Card 2-4: YouTube (Center Highlight) (X = 272, Y = 100) -->
+        <path
+            android:fillColor="#28FF0000"
+            android:pathData="M288,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#50FF3333"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M288,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#CCFF0000"
+            android:pathData="M286,121h28c4,0 7,3 7,7v4c0,4 -3,7 -7,7h-28c-4,0 -7,-3 -7,-7v-4c0,-4 3,-7 7,-7z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M297,126v8l7,-4z" />
+
+        <!-- Card 2-5: TikTok (X = 356, Y = 100) -->
+        <path
+            android:fillColor="#2200F2FE"
+            android:pathData="M372,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#4500F2FE"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M372,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#8000F2FE"
+            android:pathData="M396,117c2.4,3 5.4,4.6 9,4.8v6.2c-3.2,-0.2 -6,-1.4 -8,-3.2v15.2c0,7.8 -6.3,14 -14,14s-14,-6.2 -14,-14 6.2,-14 14,-14c1.4,0 2.8,0.2 4,0.6v6.8c-1.2,-0.5 -2.6,-0.8 -4,-0.8 -3.9,0 -7,3.1 -7,7s3.1,7 7,7 7,-3.1 7,-7v-23.6h7z" />
+        <path
+            android:fillColor="#E6FFFFFF"
+            android:pathData="M397,118c2.2,2.8 5,4.2 8.4,4.5v5.5c-3,-0.2 -5.5,-1.2 -7.4,-2.8v14.8c0,7.2 -5.8,13 -13,13s-13,-5.8 -13,-13 5.8,-13 13,-13c1.3,0 2.6,0.2 3.7,0.5v6.2c-1.1,-0.5 -2.4,-0.7 -3.7,-0.7 -3.6,0 -6.5,2.9 -6.5,6.5s2.9,6.5 6.5,6.5 6.5,-2.9 6.5,-6.5v-22h5.5z" />
+
+        <!-- Card 2-6: Pinterest (X = 440, Y = 100) -->
+        <path
+            android:fillColor="#24BD081C"
+            android:pathData="M456,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#45BD081C"
+            android:strokeWidth="1.2"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M456,100h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#D9FFFFFF"
+            android:pathData="M472,118c-6,0 -10,4.2 -10,9.5 0,3.5 1.8,6 4.3,7 0.5,0.2 0.8,0 0.9,-0.6 0.1,-0.4 0.3,-1.2 0.4,-1.6 0.1,-0.4 0,-0.7 -0.2,-1 -1,-1.2 -1.5,-2.7 -1.5,-4.4 0,-4.3 3.3,-7.4 7.6,-7.4 3.7,0 6.2,2.3 6.2,5.8 0,4.1 -2.1,7.2 -4.8,7.2 -1.5,0 -2.6,-1.2 -2.3,-2.7 0.4,-1.8 1.2,-3.7 1.2,-5 0,-1.2 -0.6,-2.1 -1.9,-2.1 -1.5,0 -2.7,1.6 -2.7,3.7 0,1.3 0.5,2.3 0.5,2.3l-1.9,8.1c-0.6,2.4 -0.1,5.4 0,5.7 0,0.1 0.2,0.2 0.3,0.1 0.1,-0.2 1.8,-2.2 2.3,-4.3l0.9,-3.6c0.5,0.9 1.8,1.7 3.2,1.7 4.2,0 7.3,-3.8 7.3,-9 0,-4.4 -3.7,-8.4 -9.8,-8.4z" />
+
+        <!-- ============================================== -->
+        <!-- ROW 3 (Y = 184): Softer Alpha (Fading smoothly toward dark bottom) -->
+        <!-- Spotify, WhatsApp, Instagram, YouTube, X -->
+        <!-- ============================================== -->
+
+        <!-- Card 3-1: Spotify (X = -10, Y = 184) -->
+        <path
+            android:fillColor="#181ED760"
+            android:pathData="M6,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#301ED760"
+            android:strokeWidth="1.0"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M6,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#991ED760"
+            android:strokeWidth="2.2"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M10,210c8,-2.5 17,-1.5 24,2.5" />
+        <path
+            android:strokeColor="#991ED760"
+            android:strokeWidth="1.8"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M12,217c6.5,-2 14,-1.2 20,2" />
+
+        <!-- Card 3-2: WhatsApp (X = 74, Y = 184) -->
+        <path
+            android:fillColor="#1825D366"
+            android:pathData="M90,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#3025D366"
+            android:strokeWidth="1.0"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M90,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#99FFFFFF"
+            android:pathData="M106,201c-8.8,0 -16,7.2 -16,16 0,3 0.8,5.8 2.2,8.2l-2.2,8 8.2,-2.1c2.3,1.3 5,2 7.8,2 8.8,0 16,-7.2 16,-16s-7.2,-16.1 -16,-16.1z" />
+
+        <!-- Card 3-3: Instagram (X = 158, Y = 184) -->
+        <path
+            android:fillColor="#18E1306C"
+            android:pathData="M174,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#30E1306C"
+            android:strokeWidth="1.0"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M174,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#99FFFFFF"
+            android:strokeWidth="1.8"
+            android:strokeLineCap="round"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M180,207c0,-4 3,-7 7,-7h14c4,0 7,3 7,7v14c0,4 -3,7 -7,7h-14c-4,0 -7,-3 -7,-7z" />
+        <path
+            android:strokeColor="#99FFFFFF"
+            android:strokeWidth="1.8"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M190,214m-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+
+        <!-- Card 3-4: YouTube (X = 242, Y = 184) -->
+        <path
+            android:fillColor="#18FF0000"
+            android:pathData="M258,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#30FF3333"
+            android:strokeWidth="1.0"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M258,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#99FF0000"
+            android:pathData="M256,205h28c4,0 7,3 7,7v4c0,4 -3,7 -7,7h-28c-4,0 -7,-3 -7,-7v-4c0,-4 3,-7 7,-7z" />
+        <path
+            android:fillColor="#99FFFFFF"
+            android:pathData="M267,210v8l7,-4z" />
+
+        <!-- Card 3-5: X / Twitter (X = 326, Y = 184) -->
+        <path
+            android:fillColor="#14FFFFFF"
+            android:pathData="M342,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:strokeColor="#25FFFFFF"
+            android:strokeWidth="1.0"
+            android:fillColor="@android:color/transparent"
+            android:pathData="M342,184h32a16,16 0 0,1 16,16v32a16,16 0 0,1 -16,16h-32a16,16 0 0,1 -16,-16v-32a16,16 0 0,1 16,-16z" />
+        <path
+            android:fillColor="#99FFFFFF"
+            android:pathData="M346,204l8.8,11.7 -8.6,10.3h2.6l7.3,-8.7 6.1,8.7h8.4l-9.3,-12.4 8.2,-9.6h-2.6l-6.8,8 -5.6,-8z" />
 
     </group>
 </vector>

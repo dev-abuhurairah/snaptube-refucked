@@ -150,7 +150,7 @@
             android:title="@string/preferred_home_screen" />
 
         <ListPreference
-            android:defaultValue="always"
+            android:defaultValue="never"
             android:entries="@array/label_visibility"
             android:entryValues="@array/label_visibility_values"
             android:icon="@drawable/baseline_disabled_visible_24"

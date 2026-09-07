@@ -85,19 +85,21 @@
         <item name="itemIconTint">@color/selector_bottom_nav_icon</item>
         <item name="itemTextColor">@color/selector_bottom_nav_text</item>
         <item name="itemRippleColor">@color/vidsnap_gold_ripple</item>
-        <item name="labelVisibilityMode">selected</item>
+        <item name="labelVisibilityMode">unlabeled</item>
+        <item name="itemPaddingTop">0dp</item>
+        <item name="itemPaddingBottom">0dp</item>
         <item name="itemActiveIndicatorStyle">@style/Widget.VidSnap.BottomNavIndicator</item>
     </style>
 
     <style name="Widget.VidSnap.BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">#543E10</item>
-        <item name="android:width">84dp</item>
-        <item name="android:height">38dp</item>
+        <item name="android:color">#4A350B</item>
+        <item name="android:width">66dp</item>
+        <item name="android:height">36dp</item>
         <item name="shapeAppearance">@style/ShapeAppearance.VidSnap.Pill</item>
     </style>
 
     <style name="ShapeAppearance.VidSnap.Pill" parent="ShapeAppearance.Material3.Corner.Full">
-        <item name="cornerSize">24dp</item>
+        <item name="cornerSize">18dp</item>
     </style>
 
     <style name="ShapeAppearance.VidSnap.Thumbnail" parent="ShapeAppearance.Material3.Corner.None">
