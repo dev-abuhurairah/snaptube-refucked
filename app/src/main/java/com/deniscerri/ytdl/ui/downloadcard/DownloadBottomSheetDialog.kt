@@ -90,6 +90,7 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
     private var disableUpdateData : Boolean = false
     private var currentDownloadItem: DownloadItem? = null
     private var incognito: Boolean = false
+    private var isAudioOnly: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,7 +170,7 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
 
         //check if the item has formats and its audio-only
         val formats = result.formats
-        val isAudioOnly = formats.isNotEmpty() && formats.none { !it.format_note.contains("audio", ignoreCase = true) }
+        isAudioOnly = formats.isNotEmpty() && formats.none { !it.format_note.contains("audio", ignoreCase = true) }
         if (isAudioOnly){
             (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.isClickable = false
             (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.alpha = 0.3f
@@ -570,24 +571,26 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
                 kotlin.runCatching {
                     isAudioOnly = formats.isNotEmpty() && formats.none { !it.format_note.contains("audio") }
                     if (isAudioOnly){
-                        (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(1)?.isClickable = true
-                        (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(1)?.alpha = 0.3f
+                        (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.isClickable = false
+                        (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.alpha = 0.3f
                         Toast.makeText(context, getString(R.string.audio_only_item), Toast.LENGTH_SHORT).show()
-                        tabLayout.getTabAt(0)!!.select()
-                        viewPager2.setCurrentItem(0, false)
+                        tabLayout.getTabAt(1)!!.select()
+                        viewPager2.setCurrentItem(1, false)
                     }
 
                     lifecycleScope.launch {
                         withContext(Dispatchers.Main){
                             runCatching {
-                                val f1 = fragmentAdapter.fragments[0] as DownloadAudioFragment
+                                val f1 = fragmentAdapter.fragments.filterIsInstance<DownloadAudioFragment>().firstOrNull()
+                                    ?: (fragmentAdapter.fragments[1] as DownloadAudioFragment)
                                 val resultItem = downloadViewModel.createResultItemFromDownload(f1.downloadItem)
                                 resultItem.formats = formats
                                 fragmentAdapter.setResultItem(resultItem)
                                 f1.view?.findViewById<LinearProgressIndicator>(R.id.format_loading_progress)?.visibility = View.GONE
                             }
                             runCatching {
-                                val f1 = fragmentAdapter.fragments[1] as DownloadVideoFragment
+                                val f1 = fragmentAdapter.fragments.filterIsInstance<DownloadVideoFragment>().firstOrNull()
+                                    ?: (fragmentAdapter.fragments[0] as DownloadVideoFragment)
                                 val resultItem = downloadViewModel.createResultItemFromDownload(f1.downloadItem)
                                 resultItem.formats = formats
                                 fragmentAdapter.setResultItem(resultItem)
