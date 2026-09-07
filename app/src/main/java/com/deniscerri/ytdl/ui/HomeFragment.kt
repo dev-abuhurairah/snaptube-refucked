@@ -356,28 +356,20 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
                     loadingItems = res.processing
                     progressBar.isVisible = loadingItems && totalCount > 0
-                    val heroSocial = fragmentView?.findViewById<View>(R.id.social_tiles_cluster)
-                    val heroPaste = fragmentView?.findViewById<View>(R.id.btn_paste_clipboard)
-                    val heroBanner = fragmentView?.findViewById<View>(R.id.banner_credit)
+                    val heroContainer = fragmentView?.findViewById<View>(R.id.hero_container)
                     if (res.processing){
                         recyclerView?.setPadding(0,0,0,0)
                         shimmerCards!!.startShimmer()
                         shimmerCards!!.visibility = VISIBLE
-                        heroSocial?.visibility = GONE
-                        heroPaste?.visibility = GONE
-                        heroBanner?.visibility = GONE
+                        heroContainer?.visibility = GONE
                     }else{
                         recyclerView?.setPadding(0,0,0,100)
                         shimmerCards!!.stopShimmer()
                         shimmerCards!!.visibility = GONE
                         if (totalCount > 0) {
-                            heroSocial?.visibility = GONE
-                            heroPaste?.visibility = GONE
-                            heroBanner?.visibility = GONE
+                            heroContainer?.visibility = GONE
                         } else {
-                            heroSocial?.visibility = VISIBLE
-                            heroPaste?.visibility = VISIBLE
-                            heroBanner?.visibility = VISIBLE
+                            heroContainer?.visibility = VISIBLE
                         }
 
                         showDownloadAllFab = totalCount > 1 && firstResult?.playlistTitle.orEmpty().isNotEmpty()
