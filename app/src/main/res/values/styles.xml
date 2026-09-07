@@ -86,6 +86,21 @@
         <item name="itemTextColor">@color/selector_bottom_nav_text</item>
         <item name="itemRippleColor">@color/vidsnap_gold_ripple</item>
         <item name="labelVisibilityMode">selected</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.VidSnap.BottomNavIndicator</item>
     </style>
 
+    <style name="Widget.VidSnap.BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">#543E10</item>
+        <item name="android:width">84dp</item>
+        <item name="android:height">38dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.VidSnap.Pill</item>
+    </style>
+
+    <style name="ShapeAppearance.VidSnap.Pill" parent="ShapeAppearance.Material3.Corner.Full">
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <style name="ShapeAppearance.VidSnap.Thumbnail" parent="ShapeAppearance.Material3.Corner.None">
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

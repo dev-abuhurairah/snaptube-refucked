@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/format_row_container"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="4dp">
+
+    <!-- Left Icon (Music note or Video icon) -->
+    <ImageView
+        android:id="@+id/iv_format_icon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_snaptube_music"
+        app:tint="#D0D0D8" />
+
+    <!-- Format Title (e.g. Classic MP3, High quality (720p)) -->
+    <TextView
+        android:id="@+id/tv_format_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="#EFEFF4"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+    <!-- File Size (e.g. 15.4 MB, 29.8 MB) -->
+    <TextView
+        android:id="@+id/tv_format_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="#8E8E93"
+        android:textSize="13sp" />
+
+    <!-- Selection Radio Circle Indicator -->
+    <ImageView
+        android:id="@+id/iv_format_radio"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_snaptube_radio_unchecked" />
+
+</LinearLayout>

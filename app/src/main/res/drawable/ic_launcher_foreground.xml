@@ -4,16 +4,35 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- White TV/Screen rounded box -->
+
+    <!-- Outer White Ring (Diameter 72dp in safe zone) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M31,26h46c6.5,0 12,5.5 12,12v32c0,6.5 -5.5,12 -12,12H31c-6.5,0 -12,-5.5 -12,-12V38c0,-6.5 5.5,-12 12,-12z" />
-    <!-- Red-Orange Downward Arrow -->
+        android:pathData="M54,18 A36,36 0 1,1 53.9,18 Z" />
+
+    <!-- Golden Yellow Inner Circle (Diameter 60dp) -->
     <path
-        android:fillColor="#FF3D00"
-        android:pathData="M48,36h12v14h9L54,64 39,50h9z" />
-    <!-- Red-Orange Download Tray / Bracket -->
+        android:fillColor="#FFC83B"
+        android:pathData="M54,24 A30,30 0 1,1 53.9,24 Z" />
+
+    <!-- White TV Screen (Rounded Rectangle) -->
     <path
-        android:fillColor="#FF3D00"
-        android:pathData="M38,65h4v4h24v-4h4v6c0,1.5 -1.2,2.7 -2.7,2.7h-26.6c-1.5,0 -2.7,-1.2 -2.7,-2.7z" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M43,41 h22 c4,0 7,3 7,7 v12 c0,4 -3,7 -7,7 h-22 c-4,0 -7,-3 -7,-7 v-12 c0,-4 3,-7 7,-7 z" />
+
+    <!-- Red-Orange Top Speed Bar -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M50,45.5 h8 c0.6,0 1.1,0.5 1.1,1.1 v0 c0,0.6 -0.5,1.1 -1.1,1.1 h-8 c-0.6,0 -1.1,-0.5 -1.1,-1.1 v0 c0,-0.6 0.5,-1.1 1.1,-1.1 z" />
+
+    <!-- Red-Orange Middle Speed Bar -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M50,49.5 h8 c0.6,0 1.1,0.5 1.1,1.1 v0 c0,0.6 -0.5,1.1 -1.1,1.1 h-8 c-0.6,0 -1.1,-0.5 -1.1,-1.1 v0 c0,-0.6 0.5,-1.1 1.1,-1.1 z" />
+
+    <!-- Red-Orange Arrowhead Triangle -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M47,53.5 h14 c0.5,0 0.8,0.6 0.5,1.0 l-6.5,8.0 c-0.2,0.3 -0.8,0.3 -1.0,0 l-6.5,-8.0 c-0.3,-0.4 0,-1.0 0.5,-1.0 z" />
+
 </vector>

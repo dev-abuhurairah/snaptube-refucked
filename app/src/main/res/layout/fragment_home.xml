@@ -220,40 +220,17 @@
                 android:paddingTop="20dp"
                 android:paddingBottom="16dp">
 
-                <!-- Brand Header -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_snaptube_logo"
-                        android:layout_marginEnd="10dp" />
-
-                    <TextView
-                        android:id="@+id/tv_brand_vidsnap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VidSnap"
-                        android:textColor="#FFC83B"
-                        android:textSize="36sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-black"
-                        android:letterSpacing="0.02" />
-
-                </LinearLayout>
-
+                <!-- Centered Brand Header matching Screenshot 1 -->
                 <TextView
+                    android:id="@+id/tv_brand_vidsnap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fast &amp; Simple Video Downloader"
-                    android:textColor="#8E8E93"
-                    android:textSize="13sp"
-                    android:layout_marginTop="3dp"
-                    android:letterSpacing="0.02" />
+                    android:text="VidSnap"
+                    android:textColor="#FFC83B"
+                    android:textSize="38sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    android:letterSpacing="0.01" />
 
                 <!-- Pill Search Bar matching Snaptube Pill Style -->
                 <LinearLayout
@@ -265,7 +242,7 @@
                     android:background="@drawable/bg_search_pill_snaptube"
                     android:elevation="6dp"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="26dp">
+                    android:layout_marginTop="28dp">
 
                     <!-- Download arrow icon on left -->
                     <ImageView
@@ -273,7 +250,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:src="@drawable/baseline_download_24"
-                        app:tint="#FFC83B"
+                        app:tint="#8E8E93"
                         android:layout_marginStart="18dp" />
 
                     <!-- Search Input field -->
@@ -312,25 +289,25 @@
 
                 </LinearLayout>
 
-                <!-- Action Button: Paste Link from Clipboard (Hidden for clean UI) -->
+                <!-- Action Button: Paste Link from Clipboard matching Screenshot 1 -->
                 <LinearLayout
                     android:id="@+id/btn_paste_clipboard"
                     android:layout_width="wrap_content"
                     android:layout_height="42dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:background="@drawable/bg_action_pill"
-                    android:paddingHorizontal="22dp"
-                    android:layout_marginTop="14dp"
+                    android:paddingHorizontal="24dp"
+                    android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_clipboard"
-                        app:tint="#FFC83B"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📋"
+                        android:textSize="14sp"
                         android:layout_marginEnd="8dp" />
 
                     <TextView
@@ -340,6 +317,25 @@
                         android:textColor="#FFC83B"
                         android:textSize="13sp"
                         android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Footer Attribution Badge matching Screenshot 1 -->
+                <LinearLayout
+                    android:id="@+id/badge_dev_attribution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_pill"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚡ Built with ❤️ by dev-abuhurairah"
+                        android:textColor="#FFC83B"
+                        android:textSize="12.5sp" />
                 </LinearLayout>
 
                 <!-- Platform Quick Access Grid (Snaptube Style) - Hidden for clean minimalist UI -->

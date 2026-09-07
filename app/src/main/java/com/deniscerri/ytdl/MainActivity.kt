@@ -61,6 +61,7 @@ import com.deniscerri.ytdl.ui.downloads.HistoryFragment
 import com.deniscerri.ytdl.ui.more.settings.SettingsActivity
 import com.deniscerri.ytdl.util.ApkInstallUtil
 import com.deniscerri.ytdl.util.CrashListener
+import com.deniscerri.ytdl.util.Extensions.extractURL
 import com.deniscerri.ytdl.util.NavbarUtil
 import com.deniscerri.ytdl.util.NavbarUtil.applyNavBarStyle
 import com.deniscerri.ytdl.util.ThemeUtil
@@ -472,50 +473,70 @@ class MainActivity : BaseActivity() {
         if (Intent.ACTION_SEND == action && type != null) {
             Log.e(TAG, action)
             try {
+                val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+                    ?: intent.getCharSequenceExtra(Intent.EXTRA_TEXT)?.toString()
+                    ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.text?.toString()
+
+                if (!sharedText.isNullOrBlank()) {
+                    val url = sharedText.extractURL().trim()
+                    if (url.isNotEmpty()) {
+                        val bundle = Bundle()
+                        bundle.putString("url", url)
+                        navController.popBackStack(R.id.homeFragment, true)
+                        navController.navigate(
+                            R.id.homeFragment,
+                            bundle
+                        )
+                        return
+                    }
+                }
+
                 val uri = if (Build.VERSION.SDK_INT >= 33){
                     intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 }else{
                     intent.getParcelableExtra(Intent.EXTRA_STREAM)
                 }
 
-                var downloadType = DownloadType.valueOf(preferences.getString("preferred_download_type", "video")!!)
-                if (preferences.getBoolean("quick_download", false) || downloadType == DownloadType.command) {
-                    val docFile = DocumentFile.fromSingleUri(this, uri!!)
-                    if (docFile?.exists() == true){
-                        val bundle = Bundle()
-                        val path = docFile.getAbsolutePath(this)
-                        if (downloadType == DownloadType.auto) {
-                            downloadType = downloadViewModel.getDownloadType(null, path)
+                if (uri != null) {
+                    var downloadType = DownloadType.valueOf(preferences.getString("preferred_download_type", "video")!!)
+                    if (preferences.getBoolean("quick_download", false) || downloadType == DownloadType.command) {
+                        val docFile = DocumentFile.fromSingleUri(this, uri)
+                        if (docFile?.exists() == true){
+                            val bundle = Bundle()
+                            val path = docFile.getAbsolutePath(this)
+                            if (downloadType == DownloadType.auto) {
+                                downloadType = downloadViewModel.getDownloadType(null, path)
+                            }
+
+                            downloadCardViewModel.setResultItem(downloadViewModel.createEmptyResultItem(path))
+                            downloadCardViewModel.setDownloadItem(null)
+                            bundle.putSerializable("type", downloadType)
+                            navController.navigate(R.id.downloadBottomSheetDialog, bundle)
+                            return
                         }
-
-                        downloadCardViewModel.setResultItem(downloadViewModel.createEmptyResultItem(path))
-                        downloadCardViewModel.setDownloadItem(null)
-                        bundle.putSerializable("type", downloadType)
-                        navController.navigate(R.id.downloadBottomSheetDialog, bundle)
-                        return
                     }
-                }
 
-                val `is` = contentResolver.openInputStream(uri!!)
-                val textBuilder = StringBuilder()
-                val reader: Reader = BufferedReader(
-                    InputStreamReader(
-                        `is`, Charset.forName(
-                            StandardCharsets.UTF_8.name()
+                    val `is` = contentResolver.openInputStream(uri)
+                    val textBuilder = StringBuilder()
+                    val reader: Reader = BufferedReader(
+                        InputStreamReader(
+                            `is`, Charset.forName(
+                                StandardCharsets.UTF_8.name()
+                            )
                         )
                     )
-                )
-                var c: Int
-                while (reader.read().also { c = it } != -1) {
-                    textBuilder.append(c.toChar())
+                    var c: Int
+                    while (reader.read().also { c = it } != -1) {
+                        textBuilder.append(c.toChar())
+                    }
+                    val bundle = Bundle()
+                    bundle.putString("url", textBuilder.toString())
+                    navController.popBackStack(R.id.homeFragment, true)
+                    navController.navigate(
+                        R.id.homeFragment,
+                        bundle
+                    )
                 }
-                val bundle = Bundle()
-                bundle.putString("url", textBuilder.toString())
-                navController.popBackStack(R.id.homeFragment, true)
-                navController.navigate(
-                    R.id.homeFragment,
-                    bundle
-                )
             } catch (e: Exception) {
                 Toast.makeText(context, "Couldn't read file", Toast.LENGTH_LONG).show()
                 e.printStackTrace()

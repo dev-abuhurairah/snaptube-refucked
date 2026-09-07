@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Rounded square container -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#C0C0C8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M7,3 h10 c2.2,0 4,1.8 4,4 v10 c0,2.2 -1.8,4 -4,4 h-10 c-2.2,0 -4,-1.8 -4,-4 v-10 c0,-2.2 1.8,-4 4,-4 z" />
+    <!-- Play triangle inside -->
+    <path
+        android:fillColor="#C0C0C8"
+        android:pathData="M10,8.5 l6,3.5 l-6,3.5 z" />
+</vector>

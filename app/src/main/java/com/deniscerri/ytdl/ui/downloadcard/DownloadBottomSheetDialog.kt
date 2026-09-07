@@ -7,15 +7,20 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Patterns
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,6 +38,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.deniscerri.ytdl.R
 import com.deniscerri.ytdl.database.enums.DownloadType
 import com.deniscerri.ytdl.database.models.DownloadItem
+import com.deniscerri.ytdl.database.models.Format
 import com.deniscerri.ytdl.database.models.ResultItem
 import com.deniscerri.ytdl.database.repository.DownloadRepository
 import com.deniscerri.ytdl.database.viewmodel.CommandTemplateViewModel
@@ -43,6 +49,9 @@ import com.deniscerri.ytdl.database.viewmodel.ResultViewModel
 import com.deniscerri.ytdl.receiver.ShareActivity
 import com.deniscerri.ytdl.ui.BaseActivity
 import com.deniscerri.ytdl.ui.more.cookies.WebViewActivity
+import com.deniscerri.ytdl.util.Extensions.loadThumbnail
+import com.deniscerri.ytdl.util.FileUtil
+import com.deniscerri.ytdl.util.FormatUtil
 import com.deniscerri.ytdl.util.UiUtil
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -64,6 +73,14 @@ import kotlinx.coroutines.withContext
 import java.net.URL
 
 
+data class SnaptubeFormatOption(
+    val format: Format,
+    val type: DownloadType,
+    val title: String,
+    val sizeText: String,
+    val container: String
+)
+
 class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
@@ -83,6 +100,11 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
     private lateinit var subtitle : View
     private lateinit var parentActivity: BaseActivity
 
+    private var selectedSnaptubeFormat: SnaptubeFormatOption? = null
+    private val snaptubeRowViews = mutableListOf<Pair<SnaptubeFormatOption, View>>()
+    private lateinit var snaptubeShimmer: ShimmerFrameLayout
+    private lateinit var snaptubeFormatsContent: LinearLayout
+    private lateinit var btnSnaptubeDownload: Button
 
     private lateinit var result: ResultItem
     private lateinit var type: DownloadType
@@ -125,6 +147,40 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
         arguments?.putSerializable("type", downloadItem.type)
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.let { dlg ->
+            val bottomSheet = dlg.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let { sheet ->
+                sheet.setBackgroundColor(Color.TRANSPARENT)
+                val behavior = BottomSheetBehavior.from(sheet)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+
+                val displayMetrics = resources.displayMetrics
+                val screenWidth = displayMetrics.widthPixels
+                val marginPx = (16 * displayMetrics.density).toInt()
+                val maxWidthPx = (480 * displayMetrics.density).toInt()
+
+                val targetWidth = minOf(screenWidth - (marginPx * 2), maxWidthPx)
+                val horizontalMargin = (screenWidth - targetWidth) / 2
+
+                val layoutParams = sheet.layoutParams
+                if (layoutParams is ViewGroup.MarginLayoutParams) {
+                    layoutParams.width = targetWidth
+                    layoutParams.leftMargin = horizontalMargin
+                    layoutParams.rightMargin = horizontalMargin
+                    layoutParams.bottomMargin = marginPx
+                    if (layoutParams is androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams) {
+                        layoutParams.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                    }
+                    sheet.layoutParams = layoutParams
+                }
+                sheet.requestLayout()
+            }
+        }
+    }
+
     @SuppressLint("RestrictedApi", "InflateParams")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -148,7 +204,6 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
         updateItem = view.findViewById(R.id.update_item)
         viewPager2.isUserInputEnabled = sharedPreferences.getBoolean("swipe_gestures_download_card", true)
 
-
         //loading shimmers
         shimmerLoading = view.findViewById(R.id.shimmer_loading_title)
         title = view.findViewById(R.id.bottom_sheet_title)
@@ -161,6 +216,11 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
                 (updateItem.parent as LinearLayout).visibility = View.VISIBLE
             }
         }
+
+        snaptubeShimmer = view.findViewById(R.id.snaptube_shimmer_formats)
+        snaptubeFormatsContent = view.findViewById(R.id.snaptube_formats_content)
+        btnSnaptubeDownload = view.findViewById(R.id.btn_snaptube_download)
+        setupSnaptubeUI(view)
 
 
         (viewPager2.getChildAt(0) as? RecyclerView)?.apply {
@@ -405,14 +465,12 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
 
 
         //update in the background if there is no data
-        if (!disableUpdateData) {
-            if(result.title.isEmpty() && currentDownloadItem == null && !sharedPreferences.getBoolean("quick_download", false) && type != DownloadType.command){
-                initUpdateData()
-            }else {
-                val usingGenericFormatsOrEmpty = result.formats.isEmpty() || result.formats.any { it.format_note.contains("ytdlnisgeneric") }
-                if (usingGenericFormatsOrEmpty && sharedPreferences.getBoolean("update_formats", false) && !sharedPreferences.getBoolean("quick_download", false)){
-                    initUpdateFormats(result)
-                }
+        if (result.title.isEmpty() || result.formats.isEmpty()) {
+            initUpdateData()
+        } else if (!disableUpdateData) {
+            val usingGenericFormatsOrEmpty = result.formats.isEmpty() || result.formats.any { it.format_note.contains("ytdlnisgeneric") }
+            if (usingGenericFormatsOrEmpty && sharedPreferences.getBoolean("update_formats", false)){
+                initUpdateFormats(result)
             }
         }
 
@@ -441,9 +499,9 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
         }
 
         lifecycleScope.launch {
-            resultViewModel.updatingData.collectLatest {
+            resultViewModel.updatingData.collectLatest { isUpdating ->
                 kotlin.runCatching {
-                    if (it){
+                    if (isUpdating){
                         title.visibility = View.GONE
                         subtitle.visibility = View.GONE
                         shimmerLoading.visibility = View.VISIBLE
@@ -451,6 +509,11 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
                         shimmerLoading.startShimmer()
                         shimmerLoadingSubtitle.startShimmer()
                         (updateItem.parent as LinearLayout).visibility = View.GONE
+
+                        snaptubeShimmer.visibility = View.VISIBLE
+                        snaptubeShimmer.startShimmer()
+                        snaptubeFormatsContent.visibility = View.GONE
+                        btnSnaptubeDownload.isEnabled = false
                     }else{
                         title.visibility = View.VISIBLE
                         subtitle.visibility = View.VISIBLE
@@ -458,6 +521,11 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
                         shimmerLoadingSubtitle.visibility = View.GONE
                         shimmerLoading.stopShimmer()
                         shimmerLoadingSubtitle.stopShimmer()
+
+                        snaptubeShimmer.stopShimmer()
+                        snaptubeShimmer.visibility = View.GONE
+                        snaptubeFormatsContent.visibility = View.VISIBLE
+                        btnSnaptubeDownload.isEnabled = (selectedSnaptubeFormat != null)
                     }
                 }
             }
@@ -515,7 +583,9 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
                     lifecycleScope.launch(Dispatchers.Main) {
                         if (result.size == 1 && result[0] != null) {
                             val res = result[0]!!
+                            this@DownloadBottomSheetDialog.result = res
                             fragmentAdapter.setResultItem(res)
+                            populateSnaptubeUI(res)
 
                             title.visibility = View.VISIBLE
                             subtitle.visibility = View.VISIBLE
@@ -600,6 +670,9 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
 
                         if (formats.isNotEmpty()){
                             result.formats = formats
+                            withContext(Dispatchers.Main) {
+                                populateSnaptubeUI(result)
+                            }
                         }
                         resultViewModel.updateFormatsResultData.emit(null)
                     }
@@ -694,6 +767,319 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
         }else{
             dismiss()
         }
+    }
+
+    private fun setupSnaptubeUI(v: View) {
+        val rowMore = v.findViewById<View>(R.id.row_more_formats)
+        val tvAll = v.findViewById<TextView>(R.id.tv_more_formats_all)
+        val containerExtra = v.findViewById<LinearLayout>(R.id.container_extra_formats)
+
+        rowMore?.setOnClickListener {
+            if (containerExtra?.visibility == View.VISIBLE) {
+                containerExtra.visibility = View.GONE
+                tvAll?.text = "All  >"
+            } else {
+                containerExtra?.visibility = View.VISIBLE
+                tvAll?.text = "Less  ^"
+            }
+        }
+
+        btnSnaptubeDownload.setOnClickListener {
+            val selected = selectedSnaptubeFormat ?: return@setOnClickListener
+            btnSnaptubeDownload.isEnabled = false
+
+            lifecycleScope.launch {
+                resultViewModel.cancelUpdateItemData()
+                resultViewModel.cancelUpdateFormatsItemData()
+
+                val downloadItem = withContext(Dispatchers.IO) {
+                    val chosenType = selected.type
+                    val item = downloadViewModel.createDownloadItemFromResult(result, result.url, chosenType)
+                    item.format = selected.format
+                    item.container = selected.container.ifEmpty {
+                        if (chosenType == DownloadType.audio) "mp3" else "mp4"
+                    }
+                    if (chosenType == DownloadType.video) {
+                        if (selected.format.acodec == "none" || selected.format.acodec.isBlank()) {
+                            item.videoPreferences.audioFormatIDs = downloadViewModel.getPreferredAudioFormats(result.formats)
+                        }
+                    }
+                    item.incognito = incognito
+                    item
+                }
+
+                val queueResult = withContext(Dispatchers.IO) {
+                    downloadViewModel.queueDownloads(listOf(downloadItem), ignoreDuplicates)
+                }
+
+                if (queueResult.message.isNotBlank()) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), queueResult.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                withContext(Dispatchers.Main) {
+                    handleDuplicatesAndDismiss(queueResult.duplicateDownloadIDs)
+                }
+            }
+        }
+
+        btnSnaptubeDownload.setOnLongClickListener {
+            val selected = selectedSnaptubeFormat ?: return@setOnLongClickListener false
+            val dd = MaterialAlertDialogBuilder(requireContext())
+            dd.setTitle(getString(R.string.save_for_later))
+            dd.setNegativeButton(getString(R.string.cancel)) { d, _ -> d.cancel() }
+            dd.setPositiveButton(getString(R.string.ok)) { _, _ ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val item = downloadViewModel.createDownloadItemFromResult(result, result.url, selected.type)
+                    item.format = selected.format
+                    item.container = selected.container.ifEmpty { if (selected.type == DownloadType.audio) "mp3" else "mp4" }
+                    item.incognito = incognito
+                    downloadViewModel.putToSaved(item)
+                    withContext(Dispatchers.Main) { dismiss() }
+                }
+            }
+            dd.show()
+            true
+        }
+
+        if (result.title.isNotEmpty()) {
+            populateSnaptubeUI(result)
+        } else {
+            val tvTitle = v.findViewById<TextView>(R.id.snaptube_video_title)
+            val tvSource = v.findViewById<TextView>(R.id.snaptube_video_source)
+            tvTitle?.text = "Loading video details..."
+            tvSource?.text = result.url.ifEmpty { "Please wait..." }
+            snaptubeShimmer.visibility = View.VISIBLE
+            snaptubeShimmer.startShimmer()
+            snaptubeFormatsContent.visibility = View.GONE
+            btnSnaptubeDownload.isEnabled = false
+        }
+    }
+
+    private fun populateSnaptubeUI(res: ResultItem) {
+        if (!::view.isInitialized) return
+        val tvTitle = view.findViewById<TextView>(R.id.snaptube_video_title)
+        val tvSource = view.findViewById<TextView>(R.id.snaptube_video_source)
+        val ivThumb = view.findViewById<ImageView>(R.id.snaptube_video_thumbnail)
+
+        tvTitle?.text = res.title.ifEmpty { res.url }
+        val author = res.author.ifEmpty { runCatching { URL(res.url).host }.getOrDefault("") }
+        val durationText = if (res.duration.isNotBlank() && res.duration != "0:00" && res.duration != "-1") " • ${res.duration}" else ""
+        tvSource?.text = if (author.isNotEmpty()) "$author$durationText" else res.url
+
+        ivThumb?.loadThumbnail(hideThumb = false, imageURL = res.thumb)
+
+        snaptubeShimmer.stopShimmer()
+        snaptubeShimmer.visibility = View.GONE
+        snaptubeFormatsContent.visibility = View.VISIBLE
+
+        val musicContainer = view.findViewById<LinearLayout>(R.id.container_music_formats) ?: return
+        val videoContainer = view.findViewById<LinearLayout>(R.id.container_video_formats) ?: return
+        val extraContainer = view.findViewById<LinearLayout>(R.id.container_extra_formats) ?: return
+        val rowMore = view.findViewById<View>(R.id.row_more_formats) ?: return
+        val sectionVideo = view.findViewById<TextView>(R.id.snaptube_section_video)
+
+        musicContainer.removeAllViews()
+        videoContainer.removeAllViews()
+        extraContainer.removeAllViews()
+        snaptubeRowViews.clear()
+
+        val formatUtil = FormatUtil(requireContext())
+        val allFormats = res.formats.ifEmpty {
+            val generic = mutableListOf<Format>()
+            generic.addAll(formatUtil.getGenericVideoFormats(resources))
+            generic.addAll(formatUtil.getGenericAudioFormats(resources))
+            generic
+        }
+
+        val audioFormats = allFormats.filter {
+            it.vcodec.isBlank() || it.vcodec == "none" || it.format_note.contains("audio", ignoreCase = true)
+        }
+
+        val videoFormats = allFormats.filter {
+            (it.vcodec.isNotBlank() && it.vcodec != "none") ||
+            (it.height != null && it.height!! > 0) ||
+            it.format_note.contains("p", ignoreCase = true)
+        }
+
+        // Music Formats
+        val musicOptions = mutableListOf<SnaptubeFormatOption>()
+        val sortedAudio = audioFormats.sortedWith(
+            compareByDescending<Format> { it.filesize }
+                .thenByDescending { it.tbr?.toFloatOrNull() ?: 0f }
+        )
+
+        val bestAudio = sortedAudio.firstOrNull() ?: formatUtil.getGenericAudioFormats(resources).first()
+        val mp3Size = if (bestAudio.filesize > 0) FileUtil.convertFileSize(bestAudio.filesize) else ""
+        musicOptions.add(
+            SnaptubeFormatOption(
+                format = bestAudio,
+                type = DownloadType.audio,
+                title = "MP3 (Classic)",
+                sizeText = mp3Size,
+                container = "mp3"
+            )
+        )
+
+        val m4aAudio = sortedAudio.find { it.container.equals("m4a", ignoreCase = true) }
+            ?: sortedAudio.getOrNull(1)
+            ?: bestAudio
+        val m4aSize = if (m4aAudio.filesize > 0) FileUtil.convertFileSize(m4aAudio.filesize) else ""
+        musicOptions.add(
+            SnaptubeFormatOption(
+                format = m4aAudio,
+                type = DownloadType.audio,
+                title = "M4A (Audio)",
+                sizeText = m4aSize,
+                container = "m4a"
+            )
+        )
+
+        for (opt in musicOptions) {
+            val row = createFormatRowView(opt, musicContainer)
+            musicContainer.addView(row)
+            snaptubeRowViews.add(Pair(opt, row))
+        }
+
+        // Video Formats
+        val videoOptions = mutableListOf<SnaptubeFormatOption>()
+        val extraOptions = mutableListOf<SnaptubeFormatOption>()
+
+        if (isAudioOnly) {
+            sectionVideo?.visibility = View.GONE
+            videoContainer.visibility = View.GONE
+            extraContainer.visibility = View.GONE
+            rowMore.visibility = View.GONE
+        } else {
+            sectionVideo?.visibility = View.VISIBLE
+            videoContainer.visibility = View.VISIBLE
+
+            if (videoFormats.isNotEmpty()) {
+                fun extractHeight(f: Format): Int {
+                    if (f.height != null && f.height!! > 0) return f.height!!
+                    val regex = "(\\d{3,4})p".toRegex(RegexOption.IGNORE_CASE)
+                    val m = regex.find(f.format_note) ?: regex.find(f.format_id)
+                    return m?.groupValues?.get(1)?.toIntOrNull() ?: 0
+                }
+
+                val grouped = videoFormats.groupBy { extractHeight(it) }
+                val heightsDesc = grouped.keys.filter { it > 0 }.sortedDescending()
+                val mainHeights = listOf(1080, 720, 480, 360)
+                val bestAudioFilesize = sortedAudio.maxOfOrNull { it.filesize } ?: 0L
+
+                for (h in heightsDesc) {
+                    val formatsInHeight = grouped[h] ?: continue
+                    val best = formatsInHeight.maxWithOrNull(
+                        compareBy<Format> { it.container.equals("mp4", ignoreCase = true) }
+                            .thenBy { it.filesize }
+                            .thenBy { it.tbr?.toFloatOrNull() ?: 0f }
+                    ) ?: formatsInHeight.first()
+
+                    var totalSize = best.filesize
+                    if ((best.acodec.isBlank() || best.acodec == "none") && bestAudioFilesize > 0) {
+                        if (totalSize > 0) totalSize += bestAudioFilesize
+                    }
+                    val sizeText = if (totalSize > 0) FileUtil.convertFileSize(totalSize) else ""
+
+                    val title = when (h) {
+                        2160 -> "4K (2160p)"
+                        1440 -> "2K (1440p)"
+                        1080 -> "1080p HD"
+                        720 -> "720p HD"
+                        480 -> "480p"
+                        360 -> "360p"
+                        240 -> "240p"
+                        144 -> "144p"
+                        else -> "${h}p"
+                    }
+
+                    val opt = SnaptubeFormatOption(
+                        format = best,
+                        type = DownloadType.video,
+                        title = title,
+                        sizeText = sizeText,
+                        container = "mp4"
+                    )
+
+                    if (mainHeights.contains(h)) {
+                        videoOptions.add(opt)
+                    } else {
+                        extraOptions.add(opt)
+                    }
+                }
+
+                if (videoOptions.isEmpty() && extraOptions.isNotEmpty()) {
+                    videoOptions.addAll(extraOptions.take(4))
+                    extraOptions.removeAll(videoOptions)
+                }
+            } else {
+                val genericVideos = formatUtil.getGenericVideoFormats(resources)
+                val standardRes = listOf("1080p HD", "720p HD", "480p", "360p")
+                genericVideos.take(4).forEachIndexed { idx, f ->
+                    videoOptions.add(
+                        SnaptubeFormatOption(
+                            format = f,
+                            type = DownloadType.video,
+                            title = standardRes.getOrNull(idx) ?: f.format_note,
+                            sizeText = "",
+                            container = "mp4"
+                        )
+                    )
+                }
+            }
+
+            for (opt in videoOptions) {
+                val row = createFormatRowView(opt, videoContainer)
+                videoContainer.addView(row)
+                snaptubeRowViews.add(Pair(opt, row))
+            }
+
+            for (opt in extraOptions) {
+                val row = createFormatRowView(opt, extraContainer)
+                extraContainer.addView(row)
+                snaptubeRowViews.add(Pair(opt, row))
+            }
+
+            rowMore.visibility = if (extraOptions.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
+        // Default selection: 720p -> 1080p -> first video -> first audio
+        selectedSnaptubeFormat = videoOptions.find { it.title.contains("720") }
+            ?: videoOptions.find { it.title.contains("1080") }
+            ?: videoOptions.firstOrNull()
+            ?: musicOptions.firstOrNull()
+
+        updateSnaptubeRadioStates()
+    }
+
+    private fun createFormatRowView(opt: SnaptubeFormatOption, parent: ViewGroup): View {
+        val row = LayoutInflater.from(requireContext()).inflate(R.layout.item_snaptube_format, parent, false)
+        val ivIcon = row.findViewById<ImageView>(R.id.iv_format_icon)
+        val tvTitle = row.findViewById<TextView>(R.id.tv_format_title)
+        val tvSize = row.findViewById<TextView>(R.id.tv_format_size)
+
+        ivIcon?.setImageResource(if (opt.type == DownloadType.audio) R.drawable.ic_snaptube_music else R.drawable.ic_snaptube_video)
+        tvTitle?.text = opt.title
+        tvSize?.text = opt.sizeText
+
+        row.setOnClickListener {
+            selectedSnaptubeFormat = opt
+            updateSnaptubeRadioStates()
+        }
+        return row
+    }
+
+    private fun updateSnaptubeRadioStates() {
+        for ((opt, row) in snaptubeRowViews) {
+            val ivRadio = row.findViewById<ImageView>(R.id.iv_format_radio)
+            val isSelected = (opt == selectedSnaptubeFormat)
+            ivRadio?.setImageResource(
+                if (isSelected) R.drawable.ic_snaptube_radio_checked
+                else R.drawable.ic_snaptube_radio_unchecked
+            )
+        }
+        btnSnaptubeDownload.isEnabled = (selectedSnaptubeFormat != null)
     }
 }
 

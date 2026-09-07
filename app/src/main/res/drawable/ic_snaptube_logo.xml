@@ -3,20 +3,35 @@
     android:height="120dp"
     android:viewportWidth="120"
     android:viewportHeight="120">
-    <!-- Golden Yellow Squircle Background -->
-    <path
-        android:fillColor="#FFC83B"
-        android:pathData="M26,8h68c14,0 22,8 22,22v52c0,14 -8,22 -22,22h-68c-14,0 -22,-8 -22,-22v-52c0,-14 8,-22 22,-22z" />
-    <!-- White Inner Screen / TV Display -->
+
+    <!-- Outer Thick White Circular Ring -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M37,29h46c7.7,0 13,5.3 13,13v36c0,7.7 -5.3,13 -13,13h-46c-7.7,0 -13,-5.3 -13,-13v-36c0,-7.7 5.3,-13 13,-13z" />
-    <!-- Bold Red-Orange Arrow -->
+        android:pathData="M60,6 A54,54 0 1,1 59.9,6 Z" />
+
+    <!-- Golden Yellow Circle -->
     <path
-        android:fillColor="#FF3D00"
-        android:pathData="M54,41h12v15h10L60,71 44,56h10z" />
-    <!-- Red-Orange Download Tray / Bracket -->
+        android:fillColor="#FFC83B"
+        android:pathData="M60,14 A46,46 0 1,1 59.9,14 Z" />
+
+    <!-- White Inner TV / Screen Display with Rounded Corners -->
     <path
-        android:fillColor="#FF3D00"
-        android:pathData="M43,72h5v4h24v-4h5v6c0,1.7 -1.3,3 -3,3h-28c-1.7,0 -3,-1.3 -3,-3z" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M44,40 h32 c6,0 11,5 11,11 v18 c0,6 -5,11 -11,11 h-32 c-6,0 -11,-5 -11,-11 v-18 c0,-6 5,-11 11,-11 z" />
+
+    <!-- Red-Orange Top Speed Bar -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M54.5,47 h11 c1,0 1.8,0.8 1.8,1.8 v0 c0,1 -0.8,1.8 -1.8,1.8 h-11 c-1,0 -1.8,-0.8 -1.8,-1.8 v0 c0,-1 0.8,-1.8 1.8,-1.8 z" />
+
+    <!-- Red-Orange Middle Speed Bar -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M54.5,53.5 h11 c1,0 1.8,0.8 1.8,1.8 v0 c0,1 -0.8,1.8 -1.8,1.8 h-11 c-1,0 -1.8,-0.8 -1.8,-1.8 v0 c0,-1 0.8,-1.8 1.8,-1.8 z" />
+
+    <!-- Red-Orange Arrowhead Triangle -->
+    <path
+        android:fillColor="#FF4500"
+        android:pathData="M50,60 h20 c0.8,0 1.3,0.9 0.8,1.5 l-9.2,11.5 c-0.4,0.5 -1.2,0.5 -1.6,0 l-9.2,-11.5 c-0.5,-0.6 0,-1.5 0.8,-1.5 z" />
+
 </vector>

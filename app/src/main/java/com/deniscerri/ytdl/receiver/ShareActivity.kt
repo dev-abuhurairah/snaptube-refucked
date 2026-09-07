@@ -59,8 +59,6 @@ class ShareActivity : BaseActivity() {
     private lateinit var navController: NavController
     private var quickDownload by Delegates.notNull<Boolean>()
 
-    private lateinit var wm: WindowManager
-    private lateinit var myView: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,50 +69,8 @@ class ShareActivity : BaseActivity() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
-
-        if (Settings.canDrawOverlays(this)){
-            val params = WindowManager.LayoutParams(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                } else {
-                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-                },
-                PixelFormat.TRANSLUCENT
-            )
-            wm = getSystemService(WINDOW_SERVICE) as WindowManager
-
-            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            myView = inflater.inflate(R.layout.activity_share, null)
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            wm.addView(myView, params)
-
-            // window.addFlags(
-            //     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-            //             or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-            //             or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            // )
-            //
-            // val params = window.attributes
-            // params.alpha = 0f
-            // window.attributes = params
-            setContentView(R.layout.activity_share)
-
-        }else{
-            window.run {
-                setBackgroundDrawable(ColorDrawable(0))
-                setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT
-                )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
-                } else {
-                    setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
-                }
-            }
-
-            setContentView(R.layout.activity_share)
-        }
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        setContentView(R.layout.activity_share)
 
         context = baseContext
         resultViewModel = ViewModelProvider(this)[ResultViewModel::class.java]
@@ -125,9 +81,9 @@ class ShareActivity : BaseActivity() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         cookieViewModel.updateCookiesFile()
-        val intent = intent
         handleIntents(intent)
     }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleIntents(intent)
@@ -136,7 +92,8 @@ class ShareActivity : BaseActivity() {
     private fun handleIntents(intent: Intent) {
         askPermissions()
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.frame_layout) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.frame_layout) as? NavHostFragment
+            ?: return
         navController = navHostFragment.findNavController()
         navController.addOnDestinationChangedListener(object: NavController.OnDestinationChangedListener{
             @SuppressLint("RestrictedApi")
@@ -157,9 +114,21 @@ class ShareActivity : BaseActivity() {
         })
 
         val action = intent.action
-        Log.e("aa", intent.toString())
+        Log.d("ShareActivity", "Action: $action, Intent: $intent")
         if (Intent.ACTION_SEND == action || Intent.ACTION_VIEW == action) {
-            if (intent.getStringExtra(Intent.EXTRA_TEXT) == null && Intent.ACTION_SEND == action){
+            val textData = when (action) {
+                Intent.ACTION_SEND -> {
+                    intent.getStringExtra(Intent.EXTRA_TEXT)
+                        ?: intent.getCharSequenceExtra(Intent.EXTRA_TEXT)?.toString()
+                        ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.text?.toString()
+                        ?: intent.dataString
+                        ?: ""
+                }
+                else -> intent.dataString ?: ""
+            }
+
+            val inputQuery = textData.extractURL().trim()
+            if (inputQuery.isEmpty()) {
                 intent.setClass(this, MainActivity::class.java)
                 startActivity(intent)
                 finishAffinity()
@@ -169,14 +138,8 @@ class ShareActivity : BaseActivity() {
             runCatching { supportFragmentManager.popBackStack() }
 
             quickDownload = intent.getBooleanExtra("quick_download", sharedPreferences.getBoolean("quick_download", false) || sharedPreferences.getString("preferred_download_type", "video") == "command")
-            val data = when(action){
-                Intent.ACTION_SEND -> intent.getStringExtra(Intent.EXTRA_TEXT)!!
-                else -> intent.dataString!!
-            }
 
-            val inputQuery = data.extractURL()
             val ai = packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
-
             val type = intent.getStringExtra("TYPE")
             val background = intent.getBooleanExtra("BACKGROUND", ai.metaData?.getBoolean("quick_run_background", false) == true)
 
@@ -195,11 +158,11 @@ class ShareActivity : BaseActivity() {
 
                 val downloadType = DownloadType.valueOf(type ?: downloadViewModel.getDownloadType(url = result.url).toString())
                 if (sharedPreferences.getBoolean("download_card", true) && !background){
-
                     downloadCardViewModel.setResultItem(result)
                     downloadCardViewModel.setDownloadItem(null)
-                    val bundle = Bundle()
-                    bundle.putSerializable("type", downloadType)
+                    val bundle = Bundle().apply {
+                        putSerializable("type", downloadType)
+                    }
                     navController.setGraph(R.navigation.share_nav_graph, bundle)
                 }else{
                     Toast.makeText(this@ShareActivity, "${getString(R.string.downloading)} $inputQuery", Toast.LENGTH_SHORT).show()
@@ -216,6 +179,7 @@ class ShareActivity : BaseActivity() {
             }
         }
     }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         startActivity(Intent(this, MainActivity::class.java))
         super.onConfigurationChanged(newConfig)
@@ -223,13 +187,6 @@ class ShareActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (::wm.isInitialized && ::myView.isInitialized) {
-            try {
-                wm.removeView(myView)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 
     override fun onResume() {
