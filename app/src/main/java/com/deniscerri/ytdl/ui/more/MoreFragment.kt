@@ -1,48 +1,29 @@
-package com.deniscerri.ytdl.ui.more
+﻿package com.deniscerri.ytdl.ui.more
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.deniscerri.ytdl.MainActivity
 import com.deniscerri.ytdl.R
 import com.deniscerri.ytdl.database.viewmodel.DownloadViewModel
 import com.deniscerri.ytdl.ui.more.settings.SettingsActivity
-import com.deniscerri.ytdl.ui.more.terminal.TerminalActivity
-import com.deniscerri.ytdl.util.NavbarUtil
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class MoreFragment : Fragment() {
     private lateinit var mainSharedPreferences: SharedPreferences
     private lateinit var mainSharedPreferencesEditor: SharedPreferences.Editor
-    private lateinit var terminal: TextView
-    private lateinit var logs: TextView
-    private lateinit var commandTemplates: TextView
-    private lateinit var downloadQueue: TextView
-    private lateinit var downloads: TextView
-    private lateinit var cookies: TextView
-    private lateinit var observeSources: TextView
-    private lateinit var terminateApp: TextView
-    private lateinit var settings: TextView
     private lateinit var mainActivity: MainActivity
     private lateinit var downloadViewModel: DownloadViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,134 +33,104 @@ class MoreFragment : Fragment() {
         downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
         return inflater.inflate(R.layout.fragment_more, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainSharedPreferences =  PreferenceManager.getDefaultSharedPreferences(requireContext())
+        mainSharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         mainSharedPreferencesEditor = mainSharedPreferences.edit()
-        terminal = view.findViewById(R.id.terminal)
-        logs = view.findViewById(R.id.logs)
-        commandTemplates = view.findViewById(R.id.command_templates)
-        downloads = view.findViewById(R.id.downloads)
-        downloadQueue = view.findViewById(R.id.download_queue)
-        cookies = view.findViewById(R.id.cookies)
-        observeSources = view.findViewById(R.id.observe_sources)
-        terminateApp = view.findViewById(R.id.terminate)
-        settings = view.findViewById(R.id.settings)
 
-        val appIcon = view.findViewById<ImageView>(R.id.app_icon)
-        if (mainSharedPreferences.getString("theme_accent", "blue") == "Default" && Build.VERSION.SDK_INT >= 32) {
-            appIcon.backgroundTintList = MaterialColors.getColorStateList(requireContext(), R.attr.colorPrimary, ContextCompat.getColorStateList(requireContext(), R.color.icon_fg)!!)
+        // 1. Download Location
+        val locationLayout = view.findViewById<View>(R.id.setting_download_location)
+        val tvLocation = view.findViewById<TextView>(R.id.tv_download_location_path)
+        val currentPath = mainSharedPreferences.getString("video_path", null)
+        if (!currentPath.isNullOrEmpty()) {
+            tvLocation.text = currentPath
         } else {
-            appIcon.backgroundTintList = null
+            tvLocation.text = "/Storage/emulated/0/Download/VidSnap"
         }
 
-        var showingTerminal = false
-        var showingDownloads = false
-        var showingDownloadQueue = false
-
-        NavbarUtil.getNavBarItems(requireContext()).apply {
-            showingTerminal = any { n -> n.itemId == R.id.terminalActivity && n.isVisible }
-            showingDownloads = any { n -> n.itemId == R.id.historyFragment && n.isVisible }
-            showingDownloadQueue = any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }
+        locationLayout.setOnClickListener {
+            kotlin.runCatching {
+                findNavController().navigate(R.id.folderSettingsFragment)
+            }.onFailure {
+                val intent = Intent(context, SettingsActivity::class.java)
+                startActivity(intent)
+            }
         }
 
-        terminal.isVisible = !showingTerminal
-        downloads.isVisible = !showingDownloads
-        downloadQueue.isVisible = !showingDownloadQueue
+        // 2. Default Quality
+        val qualityLayout = view.findViewById<View>(R.id.setting_default_quality)
+        val tvQuality = view.findViewById<TextView>(R.id.tv_default_quality_val)
+        val savedQuality = mainSharedPreferences.getString("vidsnap_default_quality", "1080p FHD")
+        tvQuality.text = savedQuality
 
-        terminal.setOnClickListener {
-            val intent = Intent(context, TerminalActivity::class.java)
-            startActivity(intent)
+        qualityLayout.setOnClickListener {
+            val qualities = arrayOf("Best Available", "1080p FHD", "720p HD", "480p", "Audio Only (MP3)")
+            val currentIndex = qualities.indexOf(tvQuality.text.toString()).let { if (it >= 0) it else 1 }
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Default Quality")
+                .setSingleChoiceItems(qualities, currentIndex) { dialog, which ->
+                    val selected = qualities[which]
+                    tvQuality.text = selected
+                    mainSharedPreferencesEditor.putString("vidsnap_default_quality", selected).apply()
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .show()
         }
 
-        logs.setOnClickListener {
-            findNavController().navigate(R.id.downloadLogListFragment)
+        // 3. Wi-Fi Only Switch
+        val switchWifi = view.findViewById<MaterialSwitch>(R.id.switch_wifi_only)
+        switchWifi.isChecked = mainSharedPreferences.getBoolean("wifi_only", false)
+        switchWifi.setOnCheckedChangeListener { _, isChecked ->
+            mainSharedPreferencesEditor.putBoolean("wifi_only", isChecked).apply()
         }
 
-        commandTemplates.setOnClickListener {
-            findNavController().navigate(R.id.commandTemplatesFragment)
+        // 4. Auto-resume Interrupted Downloads Switch
+        val switchAutoResume = view.findViewById<MaterialSwitch>(R.id.switch_auto_resume)
+        switchAutoResume.isChecked = mainSharedPreferences.getBoolean("auto_resume", true)
+        switchAutoResume.setOnCheckedChangeListener { _, isChecked ->
+            mainSharedPreferencesEditor.putBoolean("auto_resume", isChecked).apply()
         }
 
-        downloads.setOnClickListener {
-            findNavController().navigate(R.id.historyFragment)
+        // 5. Supported Services
+        val servicesLayout = view.findViewById<View>(R.id.setting_supported_services)
+        servicesLayout.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Supported Services")
+                .setMessage("VidSnap supports over 1000+ streaming and video platforms powered by yt-dlp:\n\n" +
+                        "• YouTube (Videos, Shorts, Playlists, Channels, Audio)\n" +
+                        "• Facebook (Public Videos, Reels, Watch)\n" +
+                        "• Instagram (Reels, Posts, Stories)\n" +
+                        "• TikTok (HD Videos, No Watermark, Audio)\n" +
+                        "• Twitter / X (Video posts, Media clips)\n" +
+                        "• SoundCloud, Vimeo, Twitch, Reddit, Dailymotion\n" +
+                        "• And 1000+ other supported websites worldwide.")
+                .setPositiveButton(R.string.ok, null)
+                .show()
         }
 
-        downloadQueue.setOnClickListener {
-            findNavController().navigate(R.id.downloadQueueMainFragment)
-        }
-
-        cookies.setOnClickListener {
-            findNavController().navigate(R.id.cookiesFragment)
-        }
-
-        observeSources.setOnClickListener {
-            findNavController().navigate(R.id.observeSourcesFragment)
-        }
-
-        terminateApp.setOnClickListener {
-            showTerminateConfirmationDialog()
-        }
-        terminateApp.setOnLongClickListener {
-            showTerminateConfirmationDialog(skipPreference = true)
-            true
-        }
-
-        settings.setOnClickListener {
+        // 6. Advanced Settings
+        val advancedLayout = view.findViewById<View>(R.id.setting_advanced_settings)
+        advancedLayout.setOnClickListener {
             val intent = Intent(context, SettingsActivity::class.java)
             startActivity(intent)
         }
-
     }
 
-    fun showTerminateConfirmationDialog(skipPreference: Boolean = false) {
-        val shouldAskToTerminate = mainSharedPreferences.getBoolean("ask_terminate_app", true)
-        if (!shouldAskToTerminate && !skipPreference) {
-            terminateApp.isEnabled = false
-            terminateApp()
-            return
-        }
-
-        var doNotShowAgainFinalState = !shouldAskToTerminate
-
-        lateinit var dialog: AlertDialog
-        val terminateDialog = MaterialAlertDialogBuilder(requireContext())
-        terminateDialog.setTitle(getString(R.string.kill_app))
-        val dialogView = layoutInflater.inflate(R.layout.dialog_terminate_app, null)
-        val checkbox = dialogView.findViewById<CheckBox>(R.id.doNotShowAgain)
-        terminateDialog.setView(dialogView)
-
-        checkbox.isChecked = doNotShowAgainFinalState
-        checkbox.setOnCheckedChangeListener { _, isChecked ->
-            doNotShowAgainFinalState = isChecked
-        }
-
-        terminateDialog.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
-            dialogInterface.cancel()
-        }
-
-        terminateDialog.setPositiveButton(getString(R.string.ok), null)
-        dialog = terminateDialog.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            dialog.setCanceledOnTouchOutside(false)
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isEnabled = false
-            mainSharedPreferencesEditor.putBoolean("ask_terminate_app", !doNotShowAgainFinalState).commit()
-            terminateApp()
-        }
-    }
-
-    fun terminateApp() {
-        lifecycleScope.launch {
-            downloadViewModel.pauseAllDownloads()
-            mainActivity.finishAndRemoveTask()
-            mainActivity.finishAffinity()
-            exitProcess(0)
+    override fun onResume() {
+        super.onResume()
+        view?.let { v ->
+            val tvLocation = v.findViewById<TextView>(R.id.tv_download_location_path)
+            val currentPath = mainSharedPreferences.getString("video_path", null)
+            if (!currentPath.isNullOrEmpty()) {
+                tvLocation.text = currentPath
+            }
         }
     }
 
     companion object {
         const val TAG = "MoreFragment"
     }
-
 }

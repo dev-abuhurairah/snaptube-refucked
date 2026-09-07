@@ -1,175 +1,624 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#121214"
+    android:fillViewport="true">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="120dp">
 
-        <LinearLayout
+        <!-- Top Title: Settings -->
+        <TextView
+            android:id="@+id/settings_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- SECTION 1: DOWNLOAD PREFERENCES -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DOWNLOAD PREFERENCES"
+            android:textColor="#8E8E93"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.06"
+            android:layout_marginBottom="10dp" />
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#1E1E22"
+            app:strokeWidth="0dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <!-- Download Location -->
+                <LinearLayout
+                    android:id="@+id/setting_download_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_search_button"
+                        android:backgroundTint="#2C2614">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/baseline_folder_24"
+                            app:tint="#F5B800"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download Location"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_download_location_path"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/Storage/emulated/0/Download/VidSnap"
+                            android:textColor="#8E8E93"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="middle"
+                            android:singleLine="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#2A2A2E"
+                    android:layout_marginStart="70dp" />
+
+                <!-- Default Quality -->
+                <LinearLayout
+                    android:id="@+id/setting_default_quality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_search_button"
+                        android:backgroundTint="#2C2614">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/baseline_high_quality_24"
+                            app:tint="#F5B800"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Default Quality"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_default_quality_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1080p FHD"
+                            android:textColor="#8E8E93"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- SECTION 2: NETWORK & ENGINE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NETWORK &amp; ENGINE"
+            android:textColor="#8E8E93"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.06"
+            android:layout_marginBottom="10dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#1E1E22"
+            app:strokeWidth="0dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <!-- Download over Wi-Fi only -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download over Wi-Fi only"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Avoid using mobile data allowance"
+                            android:textColor="#8E8E93"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switch_wifi_only"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:trackTint="@color/selector_switch_track"
+                        app:thumbTint="@color/selector_switch_thumb" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#2A2A2E"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- Auto-resume interrupted downloads -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Auto-resume interrupted downloads"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Resume downloading upon reconnection"
+                            android:textColor="#8E8E93"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switch_auto_resume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:trackTint="@color/selector_switch_track"
+                        app:thumbTint="@color/selector_switch_thumb" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- SECTION 3: DEVELOPER & CREDITS (Gold Bordered Card) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEVELOPER &amp; CREDITS"
+            android:textColor="#8E8E93"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.06"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:id="@+id/card_developer_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:ignore="MissingConstraints">
+            android:background="@drawable/bg_creator_card"
+            android:padding="18dp"
+            android:layout_marginBottom="24dp">
 
-            <ImageView
-                android:id="@+id/app_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_app_icon"
-                android:scaleType="center" />
-
-            <TextView
-                android:id="@+id/terminal"
+            <!-- Top Row: Avatar + Name + Badge -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/terminal"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="15dp"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_terminal" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
+                <!-- AH Yellow Avatar -->
+                <FrameLayout
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/bg_avatar_circle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AH"
+                        android:textColor="#0D0D0E"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+
+                <!-- Dev Name & Creator Badge -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="dev-abuhurairah"
+                            android:textColor="#FFFFFF"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CREATOR"
+                            android:textColor="#E5A93C"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_badge_creator"
+                            android:layout_marginStart="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lead Developer &amp; Project Maintainer"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Description Paragraph -->
             <TextView
-                android:id="@+id/logs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/logs"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="15dp"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_baseline_file_open_24" />
-
-
-            <TextView
-                android:id="@+id/command_templates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/command_templates"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
-
-            <TextView
-                android:id="@+id/downloads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/downloads"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableTint="?android:colorAccent"
-                app:drawableStartCompat="@drawable/ic_downloads" />
-
-            <TextView
-                android:id="@+id/download_queue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/download_queue"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableTint="?android:colorAccent"
-                app:drawableStartCompat="@drawable/baseline_downloading_24" />
-
-            <TextView
-                android:id="@+id/cookies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/cookies"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/baseline_cookie_24" />
-
-            <TextView
-                android:id="@+id/observe_sources"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/observe_sources"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/baseline_calendar_month_24" />
-
-            <TextView
-                android:id="@+id/terminate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingVertical="15dp"
-                android:text="@string/kill_app"
-                android:textStyle="bold"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/ic_power" />
-
-
-            <View
-                android:layout_margin="0dp"
-                style="@style/Divider.Horizontal" />
-
-            <TextView
-                android:id="@+id/settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/settings"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/ic_settings" />
+                android:text="VidSnap is proudly built and maintained by dev-abuhurairah. High-speed, ad-free social media video downloading engine."
+                android:textColor="#A0A0A0"
+                android:textSize="13sp"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginTop="14dp" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <!-- SECTION 4: ABOUT -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABOUT"
+            android:textColor="#8E8E93"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.06"
+            android:layout_marginBottom="10dp" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#1E1E22"
+            app:strokeWidth="0dp"
+            app:cardElevation="0dp">
 
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <!-- VidSnap Pro Version -->
+                <LinearLayout
+                    android:id="@+id/setting_about_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_search_button"
+                        android:backgroundTint="#2C2614">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_info"
+                            app:tint="#F5B800"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="VidSnap Pro"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Version 1.0.0 (Built by dev-abuhurairah)"
+                            android:textColor="#8E8E93"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#2A2A2E"
+                    android:layout_marginStart="70dp" />
+
+                <!-- Supported Services -->
+                <LinearLayout
+                    android:id="@+id/setting_supported_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_search_button"
+                        android:backgroundTint="#2C2614">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_language"
+                            app:tint="#F5B800"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Supported Services"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="14dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#2A2A2E"
+                    android:layout_marginStart="70dp" />
+
+                <!-- Advanced Settings (Power User Entry) -->
+                <LinearLayout
+                    android:id="@+id/setting_advanced_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
+
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_search_button"
+                        android:backgroundTint="#2C2614">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_settings"
+                            app:tint="#F5B800"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Advanced Engine Settings"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cookies, logs, terminal, command templates"
+                            android:textColor="#8E8E93"
+                            android:textSize="12sp"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Hidden views to maintain compatibility if referenced -->
+        <View
+            android:id="@+id/terminal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/logs"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/command_templates"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/downloads"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/download_queue"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/cookies"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/observe_sources"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/terminate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <View
+            android:id="@+id/settings"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

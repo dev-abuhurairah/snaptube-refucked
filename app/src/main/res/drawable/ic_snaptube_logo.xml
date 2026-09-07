@@ -1,0 +1,22 @@
+﻿<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Yellow circle background -->
+    <path
+        android:fillColor="#F5B800"
+        android:pathData="M60,60m-58,0a58,58 0,1 1,116 0a58,58 0,1 1,-116 0" />
+    <!-- White TV/Screen rounded box -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M35,42h50c4.4,0 8,3.6 8,8v20c0,4.4 -3.6,8 -8,8H35c-4.4,0 -8,-3.6 -8,-8V50c0,-4.4 3.6,-8 8,-8z" />
+    <!-- Orange/Red Downward Arrow -->
+    <path
+        android:fillColor="#E64A19"
+        android:pathData="M54,49h12v9h8L60,70 46,58h8z" />
+    <!-- Orange/Red Tray Under Arrow -->
+    <path
+        android:fillColor="#E64A19"
+        android:pathData="M48,72h24v3h-24z" />
+</vector>

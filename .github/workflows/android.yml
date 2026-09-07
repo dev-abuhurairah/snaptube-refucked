@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - "**"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -44,9 +45,20 @@ jobs:
 
       - name: Configure Keystore & Properties
         run: |
-          echo "${{ secrets.BASE_64_SIGNING_KEY }}" | base64 -d > app/release_keystore.jks
           touch local.properties
-          echo "${{ secrets.LOCAL_PROPERTIES }}" > keystore.properties
+          if [ -n "${{ secrets.BASE_64_SIGNING_KEY }}" ]; then
+            echo "${{ secrets.BASE_64_SIGNING_KEY }}" | base64 -d > app/release_keystore.jks
+            echo "${{ secrets.LOCAL_PROPERTIES }}" > keystore.properties
+          else
+            echo "No secrets provided. Generating self-signed build keystore..."
+            keytool -genkey -v -keystore app/release_keystore.jks -alias alias -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=VidSnap, OU=Dev, O=VidSnap, L=City, S=State, C=US"
+            cat <<EOF > keystore.properties
+signingConfig.storeFile=../app/release_keystore.jks
+signingConfig.storePassword=password
+signingConfig.keyAlias=alias
+signingConfig.keyPassword=password
+EOF
+          fi
           chmod +x gradlew
 
       # Build ONLY the specific flavor assigned to this matrix runner

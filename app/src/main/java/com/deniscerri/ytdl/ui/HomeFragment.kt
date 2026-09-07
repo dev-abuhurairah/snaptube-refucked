@@ -27,6 +27,10 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -258,6 +262,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
         }
 
         initMenu()
+        setupVidSnapUI(view)
         downloadSelectedFab?.tag = "downloadSelected"
         downloadSelectedFab?.setOnClickListener(this)
         downloadAllFab?.tag = "downloadAll"
@@ -340,14 +345,29 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
                     loadingItems = res.processing
                     progressBar.isVisible = loadingItems && totalCount > 0
+                    val heroSocial = fragmentView?.findViewById<View>(R.id.social_tiles_cluster)
+                    val heroPaste = fragmentView?.findViewById<View>(R.id.btn_paste_clipboard)
+                    val heroBanner = fragmentView?.findViewById<View>(R.id.banner_credit)
                     if (res.processing){
                         recyclerView?.setPadding(0,0,0,0)
                         shimmerCards!!.startShimmer()
                         shimmerCards!!.visibility = VISIBLE
+                        heroSocial?.visibility = GONE
+                        heroPaste?.visibility = GONE
+                        heroBanner?.visibility = GONE
                     }else{
                         recyclerView?.setPadding(0,0,0,100)
                         shimmerCards!!.stopShimmer()
                         shimmerCards!!.visibility = GONE
+                        if (totalCount > 0) {
+                            heroSocial?.visibility = GONE
+                            heroPaste?.visibility = GONE
+                            heroBanner?.visibility = GONE
+                        } else {
+                            heroSocial?.visibility = VISIBLE
+                            heroPaste?.visibility = VISIBLE
+                            heroBanner?.visibility = VISIBLE
+                        }
 
                         showDownloadAllFab = totalCount > 1 && firstResult?.playlistTitle.orEmpty().isNotEmpty()
                         downloadAllFab!!.isVisible = showDownloadAllFab
@@ -1080,5 +1100,118 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
         }
 
         playlistNameFilterScrollView.isVisible = true
+    }
+
+    private fun setupVidSnapUI(view: View) {
+        val searchInput = view.findViewById<EditText>(R.id.vidsnap_search_input)
+        val searchBtn = view.findViewById<View>(R.id.vidsnap_search_btn)
+        val pasteBtn = view.findViewById<View>(R.id.btn_paste_clipboard)
+
+        val tabSearch = view.findViewById<View>(R.id.tab_search)
+        val tabYouTube = view.findViewById<View>(R.id.tab_youtube)
+        val tabMusic = view.findViewById<View>(R.id.tab_music)
+        val tabMore = view.findViewById<View>(R.id.tab_more)
+
+        val tvTabSearch = view.findViewById<TextView>(R.id.tv_tab_search)
+        val tvTabYouTube = view.findViewById<TextView>(R.id.tv_tab_youtube)
+        val tvTabMusic = view.findViewById<TextView>(R.id.tv_tab_music)
+        val tvTabMore = view.findViewById<TextView>(R.id.tv_tab_more)
+
+        val indSearch = view.findViewById<View>(R.id.tab_search_indicator)
+        val indYouTube = view.findViewById<View>(R.id.tab_youtube_indicator)
+        val indMusic = view.findViewById<View>(R.id.tab_music_indicator)
+        val indMore = view.findViewById<View>(R.id.tab_more_indicator)
+
+        fun selectTab(selectedTab: Int) {
+            tvTabSearch?.setTextColor(if (selectedTab == 0) Color.WHITE else Color.parseColor("#8E8E93"))
+            tvTabSearch?.setTypeface(null, if (selectedTab == 0) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+            indSearch?.visibility = if (selectedTab == 0) View.VISIBLE else View.INVISIBLE
+
+            tvTabYouTube?.setTextColor(if (selectedTab == 1) Color.WHITE else Color.parseColor("#8E8E93"))
+            tvTabYouTube?.setTypeface(null, if (selectedTab == 1) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+            indYouTube?.visibility = if (selectedTab == 1) View.VISIBLE else View.INVISIBLE
+
+            tvTabMusic?.setTextColor(if (selectedTab == 2) Color.WHITE else Color.parseColor("#8E8E93"))
+            tvTabMusic?.setTypeface(null, if (selectedTab == 2) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+            indMusic?.visibility = if (selectedTab == 2) View.VISIBLE else View.INVISIBLE
+
+            tvTabMore?.setTextColor(if (selectedTab == 3) Color.WHITE else Color.parseColor("#8E8E93"))
+            tvTabMore?.setTypeface(null, if (selectedTab == 3) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+            indMore?.visibility = if (selectedTab == 3) View.VISIBLE else View.INVISIBLE
+        }
+
+        tabSearch?.setOnClickListener {
+            selectTab(0)
+            searchInput?.hint = "Search to download"
+        }
+
+        tabYouTube?.setOnClickListener {
+            selectTab(1)
+            searchInput?.hint = "Search YouTube..."
+            sharedPreferences?.edit()?.putString("search_engine", "ytsearch")?.apply()
+            searchInput?.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.showSoftInput(searchInput, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        tabMusic?.setOnClickListener {
+            selectTab(2)
+            searchInput?.hint = "Search Music / Audio..."
+            sharedPreferences?.edit()?.putString("preferred_download_type", "audio")?.apply()
+            searchInput?.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.showSoftInput(searchInput, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        tabMore?.setOnClickListener {
+            selectTab(3)
+            kotlin.runCatching {
+                findNavController().navigate(R.id.moreFragment)
+            }
+        }
+
+        fun executeSearch(text: String) {
+            val query = text.trim()
+            if (query.isNotEmpty()) {
+                queryList = mutableListOf(query)
+                searchBar?.setText(query)
+                if (!sharedPreferences!!.getBoolean("incognito", false)) {
+                    resultViewModel.addSearchQueryToHistory(query)
+                }
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                imm?.hideSoftInputFromWindow(searchInput?.windowToken, 0)
+                startSearch()
+            }
+        }
+
+        searchInput?.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH ||
+                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
+                executeSearch(searchInput.text.toString())
+                true
+            } else {
+                false
+            }
+        }
+
+        searchBtn?.setOnClickListener {
+            executeSearch(searchInput?.text.toString())
+        }
+
+        pasteBtn?.setOnClickListener {
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            val clipData = clipboard?.primaryClip
+            if (clipData != null && clipData.itemCount > 0) {
+                val pasteText = clipData.getItemAt(0).text?.toString()?.trim()
+                if (!pasteText.isNullOrEmpty()) {
+                    searchInput?.setText(pasteText)
+                    executeSearch(pasteText)
+                } else {
+                    Toast.makeText(requireContext(), "Clipboard is empty", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Clipboard is empty", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

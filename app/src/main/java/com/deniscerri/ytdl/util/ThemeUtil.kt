@@ -97,10 +97,10 @@ object ThemeUtil {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
         //update accent
-        when (sharedPreferences.getString("theme_accent","blue")) {
+        when (sharedPreferences.getString("theme_accent","yellow")) {
             "Default" -> {
                 DynamicColors.applyToActivityIfAvailable(activity)
-                activity.setTheme(R.style.BaseTheme)
+                activity.setTheme(R.style.Theme_Yellow)
             }
             "blue" -> activity.setTheme(R.style.Theme_Blue)
             "red" -> activity.setTheme(R.style.Theme_Red)
@@ -109,6 +109,7 @@ object ThemeUtil {
             "yellow" -> activity.setTheme(R.style.Theme_Yellow)
             "orange" -> activity.setTheme(R.style.Theme_Orange)
             "monochrome" -> activity.setTheme(R.style.Theme_Monochrome)
+            else -> activity.setTheme(R.style.Theme_Yellow)
         }
 
         //high contrast theme
@@ -116,7 +117,7 @@ object ThemeUtil {
             activity.theme.applyStyle(R.style.Pure, true)
         }
 
-        val theme = sharedPreferences.getString("ytdlnis_theme", "System")!!
+        val theme = sharedPreferences.getString("ytdlnis_theme", "Dark")!!
         when (theme) {
             "Light" -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -126,7 +127,7 @@ object ThemeUtil {
             }
             // or "System"
             else -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
 
@@ -137,9 +138,9 @@ object ThemeUtil {
 
     fun getThemeColor(context: Context, colorCode: Int): Int {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val accent = sharedPreferences.getString("theme_accent", "blue")
-        return if (accent == "blue"){
-            "d43c3b".toInt(16)
+        val accent = sharedPreferences.getString("theme_accent", "yellow")
+        return if (accent == "yellow"){
+            "F5B800".toInt(16)
         }else{
             val value = TypedValue()
             context.theme.resolveAttribute(colorCode, value, true)
@@ -152,9 +153,7 @@ object ThemeUtil {
      * Get the styled app name
      */
     fun getStyledAppName(context: Context): Spanned {
-        val colorPrimary = getThemeColor(context, androidx.appcompat.R.attr.colorPrimaryDark)
-        val hexColor = "#%06X".format(0xFFFFFF and colorPrimary)
-        return "<span  style='color:$hexColor';>YTDL</span>nis"
+        return "<span style='color:#F5B800';>Vid</span>Snap"
             .parseAsHtml(HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 

@@ -48,14 +48,53 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
+        style="@style/Widget.VidSnap.BottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/bg_floating_bottom_nav"
+        android:elevation="8dp"
+        app:itemHorizontalTranslationEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/bottom_nav_menu"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splash_screen_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0D0D0E"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="100dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_snaptube_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/splash_app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Snaptube"
+            android:textColor="#F5B800"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

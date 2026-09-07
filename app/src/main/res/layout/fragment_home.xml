@@ -1,9 +1,457 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121214">
 
+    <!-- Top App Bar with Category Tabs -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/home_appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#121214"
+        app:elevation="0dp">
+
+        <!-- Hidden Toolbar for compatibility -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
+        <!-- Category Tabs Bar matching Screenshot 2 -->
+        <LinearLayout
+            android:id="@+id/category_tabs_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingHorizontal="24dp"
+            android:gravity="center_vertical">
+
+            <!-- Search Tab (Active) -->
+            <LinearLayout
+                android:id="@+id/tab_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="8dp">
+
+                <TextView
+                    android:id="@+id/tv_tab_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp" />
+
+                <View
+                    android:id="@+id/tab_search_indicator"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/tab_indicator_yellow" />
+            </LinearLayout>
+
+            <!-- YouTube Tab -->
+            <LinearLayout
+                android:id="@+id/tab_youtube"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="24dp"
+                android:paddingHorizontal="8dp">
+
+                <TextView
+                    android:id="@+id/tv_tab_youtube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YouTube"
+                    android:textColor="#8E8E93"
+                    android:textSize="17sp"
+                    android:paddingBottom="4dp" />
+
+                <View
+                    android:id="@+id/tab_youtube_indicator"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/tab_indicator_yellow"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <!-- Music Tab -->
+            <LinearLayout
+                android:id="@+id/tab_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="24dp"
+                android:paddingHorizontal="8dp">
+
+                <TextView
+                    android:id="@+id/tv_tab_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Music"
+                    android:textColor="#8E8E93"
+                    android:textSize="17sp"
+                    android:paddingBottom="4dp" />
+
+                <View
+                    android:id="@+id/tab_music_indicator"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/tab_indicator_yellow"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <!-- More Tab -->
+            <LinearLayout
+                android:id="@+id/tab_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="24dp"
+                android:paddingHorizontal="8dp">
+
+                <TextView
+                    android:id="@+id/tv_tab_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="More"
+                    android:textColor="#8E8E93"
+                    android:textSize="17sp"
+                    android:paddingBottom="4dp" />
+
+                <View
+                    android:id="@+id/tab_more_indicator"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/tab_indicator_yellow"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Hidden SearchBar for HomeFragment compatibility -->
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:menu="@menu/main_menu" />
+
+        <HorizontalScrollView
+            android:id="@+id/playlist_selection_chips_scrollview"
+            android:layout_width="wrap_content"
+            android:scrollbars="none"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/playlist_selection_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </HorizontalScrollView>
+
+        <View
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#F5B800"
+            android:visibility="gone" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Scroll Content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/home_nested_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="120dp">
+
+            <!-- Hero Section (Screenshot 2) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/hero_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="28dp"
+                android:paddingBottom="16dp">
+
+                <!-- Brand Title: VidSnap -->
+                <TextView
+                    android:id="@+id/tv_brand_vidsnap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VidSnap"
+                    android:textColor="#F5B800"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Floating Social App Tiles Background -->
+                <RelativeLayout
+                    android:id="@+id/social_tiles_cluster"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_brand_vidsnap"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <!-- Facebook (Blue, top left) -->
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_tile_facebook"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:rotation="-8"
+                        android:alpha="0.85" />
+
+                    <!-- WhatsApp (Green, top mid-left) -->
+                    <ImageView
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:src="@drawable/ic_tile_whatsapp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="60dp"
+                        android:layout_marginTop="4dp"
+                        android:rotation="6"
+                        android:alpha="0.85" />
+
+                    <!-- Twitter / X (Blue, top right) -->
+                    <ImageView
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:src="@drawable/ic_tile_twitter"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="28dp"
+                        android:layout_marginTop="12dp"
+                        android:rotation="10"
+                        android:alpha="0.85" />
+
+                    <!-- Instagram (Magenta, mid left) -->
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:src="@drawable/ic_tile_instagram"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="44dp"
+                        android:layout_marginTop="64dp"
+                        android:rotation="5"
+                        android:alpha="0.9" />
+
+                    <!-- YouTube (Red, mid right) -->
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:src="@drawable/ic_tile_youtube"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="50dp"
+                        android:layout_marginTop="70dp"
+                        android:rotation="-6"
+                        android:alpha="0.9" />
+
+                    <!-- TikTok (Dark, center) -->
+                    <ImageView
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/ic_tile_tiktok"
+                        android:layout_centerInParent="true"
+                        android:rotation="-4"
+                        android:alpha="0.8" />
+
+                    <!-- Share (Orange, bottom right) -->
+                    <ImageView
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/ic_tile_share"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="4dp"
+                        android:rotation="8"
+                        android:alpha="0.85" />
+                </RelativeLayout>
+
+                <!-- Pill Search Bar (Screenshot 2) -->
+                <LinearLayout
+                    android:id="@+id/vidsnap_search_bar_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_search_pill"
+                    android:elevation="6dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/social_tiles_cluster"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <!-- Download arrow icon on left -->
+                    <ImageView
+                        android:id="@+id/search_icon_left"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/baseline_download_24"
+                        app:tint="#8E8E93"
+                        android:layout_marginStart="16dp" />
+
+                    <!-- Search Input field -->
+                    <EditText
+                        android:id="@+id/vidsnap_search_input"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Search to download"
+                        android:textColorHint="#6E6E73"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="12dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textUri|text" />
+
+                    <!-- Yellow Circular Search Button on right -->
+                    <FrameLayout
+                        android:id="@+id/vidsnap_search_btn"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_search_button"
+                        android:layout_marginEnd="6dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_search"
+                            app:tint="#0D0D0E"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- Action Button: 📋 Paste Link from Clipboard -->
+                <LinearLayout
+                    android:id="@+id/btn_paste_clipboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_pill"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="18dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintTop_toBottomOf="@id/vidsnap_search_bar_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📋  Paste Link from Clipboard"
+                        android:textColor="#E5A93C"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Tag: ⚡ Built with ❤️ by dev-abuhurairah -->
+                <LinearLayout
+                    android:id="@+id/banner_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_pill"
+                    android:paddingHorizontal="18dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintTop_toBottomOf="@id/btn_paste_clipboard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚡ Built with ❤️ by dev-abuhurairah"
+                        android:textColor="#E5A93C"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Results Section (Unchanged Download Area) -->
+            <RelativeLayout
+                android:id="@+id/results_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
+                    android:clipToPadding="false"
+                    android:paddingBottom="100dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_results_framelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/recyclerViewHome"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+                        <include layout="@layout/result_card_shimmer" />
+                        <include layout="@layout/result_card_shimmer" />
+                        <include layout="@layout/result_card_shimmer" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Overlay SearchView for deep search suggestions if triggered -->
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -21,7 +469,6 @@
                 android:scrollbars="none"
                 android:paddingHorizontal="10dp"
                 android:layout_height="wrap_content">
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/providers"
                     android:layout_marginTop="5dp"
@@ -30,14 +477,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:singleLine="true" />
-
             </HorizontalScrollView>
 
             <View
                 android:id="@+id/chipGroupDivider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                style="@style/Divider.Vertical"/>
+                style="@style/Divider.Vertical" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/queries_constraint"
@@ -79,168 +525,25 @@
 
     </com.google.android.material.search.SearchView>
 
-    <RelativeLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:id="@+id/recyclerViewHome"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:clipToPadding="false"
-            android:paddingBottom="200dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/recyclerViewHome"
-            android:id="@+id/shimmer_results_framelayout"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical">
-
-                <include layout="@layout/result_card_shimmer" />
-
-                <include layout="@layout/result_card_shimmer" />
-
-                <include layout="@layout/result_card_shimmer" />
-
-                <include layout="@layout/result_card_shimmer" />
-
-                <include layout="@layout/result_card_shimmer" />
-
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-    </RelativeLayout>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/home_appbarlayout"
-        android:background="@null"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/home_toolbar"
-            android:layout_width="match_parent"
-            app:title="@string/app_name"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_height="wrap_content" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_marginVertical="15dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_height="wrap_content">
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/progress"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:translationZ="250dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/search_bar"
-                app:layout_constraintEnd_toEndOf="@+id/search_bar"
-                app:layout_constraintStart_toStartOf="@+id/search_bar"
-                app:layout_constraintTop_toTopOf="@+id/search_bar"
-                app:shimmer_auto_start="true">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cardCornerRadius="30dp">
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/search_hint"
-                app:menu="@menu/main_menu" >
-
-            </com.google.android.material.search.SearchBar>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <HorizontalScrollView
-            android:id="@+id/playlist_selection_chips_scrollview"
-            android:layout_width="wrap_content"
-            android:scrollbars="none"
-            android:visibility="gone"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:paddingHorizontal="20dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:layout_width="wrap_content"
-                    app:selectionRequired="false"
-                    android:id="@+id/playlist_selection_chips"
-                    app:singleSelection="true"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/all"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/all"
-                        android:tag="all"
-                        android:checked="true"
-                        android:minWidth="30dp"
-                        app:cornerRadius="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </com.google.android.material.chip.ChipGroup>
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
+    <!-- Floating Action Buttons for Multi-Downloads -->
     <LinearLayout
         android:id="@+id/home_fabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp">
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/copied_url_fab"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:text="@string/link_you_copied"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="10dp"
-                android:contentDescription="@string/link_you_copied"
-                app:icon="@drawable/ic_clipboard"
-                app:useCompatPadding="true" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/copied_url_fab"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:text="@string/link_you_copied"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="10dp"
+            app:icon="@drawable/ic_clipboard" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/download_all_fab"
@@ -263,8 +566,7 @@
             android:layout_margin="16dp"
             android:layout_marginBottom="10dp"
             app:icon="@drawable/ic_down"
-            android:text="@string/download"
-            app:srcCompat="@drawable/ic_music"/>
+            android:text="@string/download" />
 
     </LinearLayout>
 

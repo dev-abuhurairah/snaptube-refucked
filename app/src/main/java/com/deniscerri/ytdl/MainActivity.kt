@@ -122,6 +122,21 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         context = baseContext
 
+        val splashOverlay = findViewById<View>(R.id.splash_screen_overlay)
+        if (savedInstanceState == null) {
+            splashOverlay?.postDelayed({
+                splashOverlay.animate()
+                    .alpha(0f)
+                    .setDuration(400)
+                    .withEndAction {
+                        splashOverlay.visibility = View.GONE
+                    }
+                    .start()
+            }, 1200)
+        } else {
+            splashOverlay?.visibility = View.GONE
+        }
+
         resultViewModel = ViewModelProvider(this)[ResultViewModel::class.java]
         cookieViewModel = ViewModelProvider(this)[CookieViewModel::class.java]
         downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
